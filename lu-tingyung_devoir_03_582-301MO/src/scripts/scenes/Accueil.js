@@ -5,7 +5,7 @@ class Accueil extends Phaser.Scene {
 
     preload() { 
         this.load.image("logo", "./assets/images/ui/Gluttony.png");
-        this.load.image("bgAccueil", "./assets/images/backgrounds/Village_1.png");
+        this.load.image("bgAccueil", "./assets/images/backgrounds/bg_accueil.png");
         this.load.image("commencer", "./assets/images/ui/Commencer.png");
         this.load.image("credits", "./assets/images/ui/Credits.png");
         this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
@@ -14,13 +14,13 @@ class Accueil extends Phaser.Scene {
   
     create() {
         this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0,0);
-        this.bgAccueil.setPosition(0, -150);
+        this.bgAccueil.setPosition(-525, -250);
 
         this.logo = this.add.image(0, 0, "logo").setOrigin(0, 0);
-        this.logo.setPosition(225, 150);
+        this.logo.setPosition(475, 150);
 
         this.commencer = this.add.image(0, 0, "commencer").setOrigin(0, 0);
-        this.commencer.setPosition(290, 300);
+        this.commencer.setPosition(535, 300);
         this.commencer.setInteractive();
         this.commencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -29,7 +29,7 @@ class Accueil extends Phaser.Scene {
         });
 
         this.credits = this.add.image(0, 0, "credits").setOrigin(0, 0);
-        this.credits.setPosition(25, 500);
+        this.credits.setPosition(50, 600);
         this.credits.setInteractive();
         this.credits.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -38,7 +38,7 @@ class Accueil extends Phaser.Scene {
         });
 
         this.commentJouer = this.add.image(0, 0, "commentJouer").setOrigin(0, 0);
-        this.commentJouer.setPosition(425, 500);
+        this.commentJouer.setPosition(890, 600);
         this.commentJouer.setInteractive();
         this.commentJouer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -47,7 +47,7 @@ class Accueil extends Phaser.Scene {
         });
 
         this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
-        this.sons.setPosition(655, 25);
+        this.sons.setPosition(1125, 25);
     }
   
     update() {}

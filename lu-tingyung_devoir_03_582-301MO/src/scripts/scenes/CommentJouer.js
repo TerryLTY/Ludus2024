@@ -9,7 +9,7 @@ class CommentJouer extends Phaser.Scene {
   
     create() {
         this.retour = this.add.image(0, 0, "retour").setOrigin(0, 0);
-        this.retour.setPosition(25, 500);
+        this.retour.setPosition(1050, 600);
         this.retour.setInteractive();
         this.retour.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {

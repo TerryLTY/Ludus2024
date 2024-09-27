@@ -9,7 +9,7 @@ class Victoire extends Phaser.Scene {
   
     create() {
         this.menuPrincipal = this.add.image(0, 0, "menuPrincipal").setOrigin(0, 0);
-        this.menuPrincipal.setPosition(500, 500);
+        this.menuPrincipal.setPosition(1050, 600);
         this.menuPrincipal.setInteractive();
         this.menuPrincipal.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {

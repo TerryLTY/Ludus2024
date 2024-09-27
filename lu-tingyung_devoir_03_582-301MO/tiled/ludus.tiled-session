@@ -3,11 +3,24 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "untitled.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "untitled.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 558,
+                "y": 122
+            }
+        },
+        "untitled.tmx#01 background": {
+            "scaleInDock": 1
+        },
         "untitled.tmx#main_lev_build": {
+            "scaleInDock": 0.5,
             "scaleInEditor": 0.33
         }
     },
@@ -20,10 +33,12 @@
     "map.tileWidth": 16,
     "map.width": 80,
     "openFiles": [
+        "untitled.tmx"
     ],
     "project": "ludus.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "untitled.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {

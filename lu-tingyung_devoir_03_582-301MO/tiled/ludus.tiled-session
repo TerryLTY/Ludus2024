@@ -1,0 +1,33 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "untitled.tmx#main_lev_build": {
+            "scaleInEditor": 0.33
+        }
+    },
+    "last.exportedFilePath": "D:/GitHub/Ludus2024/lu-tingyung_devoir_03_582-301MO/assets/images",
+    "last.imagePath": "D:/GitHub/Ludus2024/lu-tingyung_devoir_03_582-301MO/tiled",
+    "map.height": 45,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 80,
+    "openFiles": [
+    ],
+    "project": "ludus.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

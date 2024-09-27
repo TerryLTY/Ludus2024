@@ -3,6 +3,10 @@ const config = {
   parent: "canvas-wrapper",
   width: 1280,
   height: 720,
-  scene: [Accueil, Jeu, CommentJouer, Credits, PartieTerminee, Victoire]
+  scene: [Accueil, Jeu, CommentJouer, Credits, PartieTerminee, Victoire],
+  pixelArt: true,
+  physics: {
+    default: "arcade"
+  }
 };
 const game = new Phaser.Game(config);

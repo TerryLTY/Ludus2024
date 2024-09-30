@@ -3,6 +3,10 @@
     src: url(../assets/fonts/Inter_18pt-Medium.ttf);
 }
 
+* {
+    margin: 0;
+}
+
 body {
     font-family: inter;
     background-image: url(../assets/images/bg.jpg);
@@ -24,4 +28,5 @@ a:hover {
     background-size: cover;
     background-image: url(../assets/images/banner.jpg);
     background-blend-mode: overlay;
+    background-position: 50% 30%;
 }

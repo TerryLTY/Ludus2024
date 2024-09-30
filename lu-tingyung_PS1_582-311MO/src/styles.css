@@ -24,5 +24,4 @@ a:hover {
     background-size: cover;
     background-image: url(../assets/images/banner.jpg);
     background-blend-mode: overlay;
-    margin: auto;
 }

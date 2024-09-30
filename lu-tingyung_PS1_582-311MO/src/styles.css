@@ -2,11 +2,20 @@
     font-family: inter;
     src: url(../assets/fonts/Inter_18pt-Medium.ttf);
 }
+
 body {
     font-family: inter;
     background-image: url(../assets/images/bg.jpg);
     background-attachment: fixed;
     overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .header-background {

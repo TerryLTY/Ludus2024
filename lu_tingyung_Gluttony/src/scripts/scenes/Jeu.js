@@ -9,8 +9,16 @@ class Jeu extends Phaser.Scene {
         this.load.image("01background", "./assets/images/tiled_images/01 background.png");
         this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
 
-        this.load.image("player", "./assets/images/characters/attack-01.png")
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
+
+        this.load.spritesheet(
+            "player",
+            "./assets/images/characters/player_spritesheet.png",
+            {
+                frameWidth: 32,
+                frameHeight: 32
+            }
+        );
     }
 
     create() {
@@ -24,16 +32,60 @@ class Jeu extends Phaser.Scene {
         // Calques
         const bgLayer = maCarte.createLayer("fond", [tileset01Background], 0, 0);
         const collisionLayer = maCarte.createLayer("sol", [tilesetMainLevBuild], 0, 0);
-        // Si un calque contien des zones de collision (variable custom dans Tiled)
+
         collisionLayer.setCollisionByProperty({ collision: true });
 
         // Joueur
         this.player = this.physics.add.sprite(300, 150, "player");
-        this.player.setOffset(0, -5);
-        this.player.setBounce(0);
+        this.player
+            .setScale(1.5)
+            .setSize(16, 16)
+            .setOffset(9, 16);
         this.player.body.setGravityY(1000);
+        this.player.setBounce(0);
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
+
+        // Animations
+        this.isFalling = false;
+        this.isJumping = false;
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("player", { start: 12, end: 16 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.player.anims.play("idle");
+        this.anims.create({
+            key: "walk",
+            frames: this.anims.generateFrameNumbers("player", { start: 23, end: 29 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "jump",
+            frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "fall",
+            frames: this.anims.generateFrameNumbers("player", { start: 20, end: 22 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "die",
+            frames: this.anims.generateFrameNumbers("player", { start: 8, end: 11 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "attack",
+            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 7 }),
+            frameRate: 10,
+            repeat: 0
+        });
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {
@@ -61,12 +113,17 @@ class Jeu extends Phaser.Scene {
     }
 
     update() {
-        // Vitesse de marche et de course
+        this.handleMovement();
+        this.handleAnimations();
+        this.handleDeath();
+    }
+
+    handleMovement() {
         const walkSpeed = 150;
         const runSpeed = 300;
         let velocity = walkSpeed;
 
-        // Si Shift est pressé, on court
+        // Courir
         if (this.keys.shift.isDown) {
             velocity = runSpeed;
         }
@@ -95,9 +152,32 @@ class Jeu extends Phaser.Scene {
             this.jumpCount++;
             this.jumpKeyReleased = false;
         }
-        // Mort
+    }
+
+    handleAnimations() {
+        // Touche au sol
+        if (!this.player.body.blocked.down) {
+            if (this.player.body.velocity.y < 0 && !this.isJumping) {
+                this.player.anims.play("jump", true);
+                this.isFalling = false;
+            } else if (!this.isFalling) {
+                this.player.anims.play("fall", true);
+            }
+        } else {
+            this.isFalling = false;
+            this.isJumping = false;
+            if (this.player.body.velocity.x !== 0) {
+                this.player.anims.play("walk", true);
+            } else {
+                this.player.anims.play("idle", true);
+            }
+        }
+    }
+
+    handleDeath() {
+        // Tombe dans vide
         if (this.player.y > config.height + this.player.height) {
-            this.player.setPosition(300, 150);
+            this.player.setPosition(300, 130);
         }
     }
 }

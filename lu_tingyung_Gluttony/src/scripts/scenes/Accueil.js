@@ -16,8 +16,11 @@ class Accueil extends Phaser.Scene {
         this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0,0);
         this.bgAccueil.setPosition(-525, -250);
 
-        this.logo = this.add.image(0, 0, "logo").setOrigin(0, 0);
-        this.logo.setPosition(475, 150);
+        const logo = this.add.image(188, 80, "logo").setOrigin(0,0);
+        logo.setPosition(465, 150);
+
+        this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
+        this.sons.setPosition(1125, 25);
 
         this.commencer = this.add.image(0, 0, "commencer").setOrigin(0, 0);
         this.commencer.setPosition(535, 300);
@@ -46,8 +49,14 @@ class Accueil extends Phaser.Scene {
             }
         });
 
-        this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
-        this.sons.setPosition(1125, 25);
+        // animation titre
+        this.tweens.add({
+            targets: logo,
+            scale: 1.1,
+            duration: 3000,
+            repeat: -1,
+            yoyo: true
+          });
     }
   
     update() {}

@@ -1,6 +1,8 @@
 class Jeu extends Phaser.Scene {
     constructor() {
-        super({ key: "Jeu" });
+        super({
+            key: "Jeu"
+        });
     }
 
     preload() {
@@ -13,8 +15,7 @@ class Jeu extends Phaser.Scene {
 
         this.load.spritesheet(
             "player",
-            "./assets/images/characters/player_spritesheet.png",
-            {
+            "./assets/images/characters/player_spritesheet.png", {
                 frameWidth: 32,
                 frameHeight: 32
             }
@@ -23,7 +24,9 @@ class Jeu extends Phaser.Scene {
 
     create() {
         // Tilemap
-        const maCarte = this.make.tilemap({ key: "carte_json" });
+        const maCarte = this.make.tilemap({
+            key: "carte_json"
+        });
 
         // Tileset
         const tileset01Background = maCarte.addTilesetImage("01 background", "01background");
@@ -33,12 +36,14 @@ class Jeu extends Phaser.Scene {
         const bgLayer = maCarte.createLayer("fond", [tileset01Background], 0, 0);
         const collisionLayer = maCarte.createLayer("sol", [tilesetMainLevBuild], 0, 0);
 
-        collisionLayer.setCollisionByProperty({ collision: true });
+        collisionLayer.setCollisionByProperty({
+            collision: true
+        });
 
         // Joueur
-        this.player = this.physics.add.sprite(300, 150, "player");
+        this.player = this.physics.add.sprite(300, 450, "player");
         this.player
-            .setScale(1.5)
+            .setScale(1.3)
             .setSize(16, 16)
             .setOffset(9, 16);
         this.player.body.setGravityY(1000);
@@ -51,38 +56,56 @@ class Jeu extends Phaser.Scene {
         this.isJumping = false;
         this.anims.create({
             key: "idle",
-            frames: this.anims.generateFrameNumbers("player", { start: 12, end: 16 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 12,
+                end: 16
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.player.anims.play("idle");
         this.anims.create({
             key: "walk",
-            frames: this.anims.generateFrameNumbers("player", { start: 23, end: 29 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 23,
+                end: 29
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: "jump",
-            frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 18,
+                end: 19
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: "fall",
-            frames: this.anims.generateFrameNumbers("player", { start: 20, end: 22 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 20,
+                end: 22
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: "die",
-            frames: this.anims.generateFrameNumbers("player", { start: 8, end: 11 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 8,
+                end: 11
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: "attack",
-            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 0,
+                end: 7
+            }),
             frameRate: 10,
             repeat: 0
         });
@@ -101,9 +124,19 @@ class Jeu extends Phaser.Scene {
             shift: Phaser.Input.Keyboard.KeyCodes.SHIFT
         });
 
+        // Caméra
+        this.cameras.main.setBounds(
+            0,
+            0,
+            config.width,
+            config.height
+        );
+        this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
+        this.cameras.main.setZoom(1.25);
+
         // Bouton
-        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0);
-        this.quitter.setPosition(1050, 600);
+        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.8);
+        this.quitter.setPosition(970, 550);
         this.quitter.setInteractive();
         this.quitter.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -116,6 +149,7 @@ class Jeu extends Phaser.Scene {
         this.handleMovement();
         this.handleAnimations();
         this.handleDeath();
+        this.nextLevel()
     }
 
     handleMovement() {
@@ -177,7 +211,14 @@ class Jeu extends Phaser.Scene {
     handleDeath() {
         // Tombe dans vide
         if (this.player.y > config.height + this.player.height) {
-            this.player.setPosition(300, 130);
+            this.scene.start("PartieTerminee");
+        }
+    }
+
+    nextLevel() {
+        // Tombe dans vide
+        if (this.player.x > config.width + this.player.width) {
+            this.scene.start("Victoire");
         }
     }
 }

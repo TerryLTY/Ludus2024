@@ -6,9 +6,20 @@ class PartieTerminee extends Phaser.Scene {
     preload() {
         this.load.image("recommencer", "./assets/images/ui/Recommencer.png");
         this.load.image("menuPrincipal", "./assets/images/ui/Menu principal.png");
+        this.load.image("RIP", "./assets/images/ui/Vous êtes mort.png");
     }
   
     create() {
+        this.rip = this.add.image(0, 0, "RIP").setOrigin(0, 0);
+        this.rip.setPosition(325, 200);
+        this.rip.setAlpha(0);
+
+        this.tweens.add({
+            targets: this.rip,
+            alpha: 1,
+            duration: 2000
+        });
+
         this.recommencer = this.add.image(0, 0, "recommencer").setOrigin(0, 0);
         this.recommencer.setPosition(50, 590);
         this.recommencer.setInteractive();

@@ -13,6 +13,8 @@ class Jeu extends Phaser.Scene {
 
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
 
+        this.load.image("item", "./assets/images/items/item_dash.png");
+
         this.load.spritesheet(
             "player",
             "./assets/images/characters/player_spritesheet.png", {
@@ -109,6 +111,16 @@ class Jeu extends Phaser.Scene {
             frameRate: 10,
             repeat: 0
         });
+
+        // item
+        this.item = this.physics.add.image(700, 550, "item").setScale(2);
+        this.physics.add.overlap(
+            this.player,
+            this.item,
+            () => {
+                this.item.destroy();
+            }
+        );
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {

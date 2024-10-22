@@ -52,6 +52,8 @@ class Jeu extends Phaser.Scene {
         this.player.setBounce(0);
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
+        this.dashCount = 0;
+        this.dashKeyReleased = true;
 
         // Animations
         this.isFalling = false;
@@ -126,6 +128,8 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer, () => {
             this.jumpCount = 0;
             this.jumpKeyReleased = true;
+            this.dashCount = 0;
+            this.dashKeyReleased = true;
         });
 
         // Touches
@@ -169,11 +173,11 @@ class Jeu extends Phaser.Scene {
         const runSpeed = 300;
         let velocity = walkSpeed;
 
-        // Courir
-        if (this.keys.shift.isDown) {
+        // Dash
+        /*if (this.keys.shift.isDown) {
             velocity = runSpeed;
-        }
-
+        }*/
+        
         // Déplacements
         if (this.keys.left.isDown) {
             this.player.setVelocityX(-velocity);
@@ -197,6 +201,19 @@ class Jeu extends Phaser.Scene {
             this.player.setVelocityY(-500);
             this.jumpCount++;
             this.jumpKeyReleased = false;
+        }
+
+        if (this.keys.shift.isUp) {
+            this.dashKeyReleased = true; // La touche est relâchée
+        }
+        if (
+            this.keys.shift.isDown &&
+            this.dashKeyReleased &&
+            (this.dashCount < 2)
+        ) {
+            this.player.setVelocityX(500);
+            this.dashCount++;
+            this.dashKeyReleased = false;
         }
     }
 

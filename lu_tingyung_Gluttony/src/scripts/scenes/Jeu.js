@@ -42,18 +42,19 @@ class Jeu extends Phaser.Scene {
             collision: true
         });
 
+
         // Joueur
         this.player = this.physics.add.sprite(300, 450, "player");
         this.player
-            .setScale(1.3)
+            .setScale(1.2)
             .setSize(16, 16)
             .setOffset(9, 16);
         this.player.body.setGravityY(1000);
         this.player.setBounce(0);
+        this.player.hp = 3;
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
-        this.dashCount = 0;
-        this.dashKeyReleased = true;
+        this.dashCount = 2;
 
         // Animations
         this.isFalling = false;
@@ -115,11 +116,13 @@ class Jeu extends Phaser.Scene {
         });
 
         // item
-        this.item = this.physics.add.image(700, 550, "item").setScale(2);
+        this.item = this.physics.add.image(700, 250, "item").setScale(2);
         this.physics.add.overlap(
             this.player,
             this.item,
             () => {
+                this.player.setAlpha(1);
+                this.player.clearTint();
                 this.item.destroy();
             }
         );
@@ -128,8 +131,6 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer, () => {
             this.jumpCount = 0;
             this.jumpKeyReleased = true;
-            this.dashCount = 0;
-            this.dashKeyReleased = true;
         });
 
         // Touches
@@ -148,10 +149,10 @@ class Jeu extends Phaser.Scene {
             config.height
         );
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-        this.cameras.main.setZoom(1.25);
+        this.cameras.main.setZoom(1.5);
 
         // Bouton
-        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.8);
+        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.5);
         this.quitter.setPosition(970, 550);
         this.quitter.setInteractive();
         this.quitter.on("pointerdown", (pointer) => {
@@ -169,15 +170,15 @@ class Jeu extends Phaser.Scene {
     }
 
     handleMovement() {
-        const walkSpeed = 150;
-        const runSpeed = 300;
+        const walkSpeed = 125;
+        const runSpeed = 250;
         let velocity = walkSpeed;
 
         // Dash
-        /*if (this.keys.shift.isDown) {
+        if (this.keys.shift.isDown) {
             velocity = runSpeed;
-        }*/
-        
+        }
+
         // Déplacements
         if (this.keys.left.isDown) {
             this.player.setVelocityX(-velocity);
@@ -203,18 +204,48 @@ class Jeu extends Phaser.Scene {
             this.jumpKeyReleased = false;
         }
 
-        if (this.keys.shift.isUp) {
-            this.dashKeyReleased = true; // La touche est relâchée
-        }
-        if (
-            this.keys.shift.isDown &&
-            this.dashKeyReleased &&
-            (this.dashCount < 2)
-        ) {
-            this.player.setVelocityX(500);
-            this.dashCount++;
-            this.dashKeyReleased = false;
-        }
+        // DASH
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
+                this.player.setVelocityX(-5000);
+                this.player.setTint(0x7fdcff);
+                this.player.setAlpha(0.8);
+                this.dashCount--;
+                let flashTween = this.tweens.add({
+                    targets: this.player,
+                    alpha: {
+                        from: 0.5,
+                        to: 0.9
+                    },
+                    duration: 100,
+                    repeat: 2,
+                    yoyo: true,
+                    onComplete: () => {
+                        this.player.clearTint();
+                        this.player.setAlpha(1);
+                    }
+                })
+            } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
+                this.player.setVelocityX(5000);
+                this.player.setTint(0x7fdcff);
+                this.player.setAlpha(0.8);
+                let flashTween = this.tweens.add({
+                    targets: this.player,
+                    alpha: {
+                        from: 0.5,
+                        to: 0.9
+                    },
+                    duration: 100,
+                    repeat: 5,
+                    yoyo: true,
+                    onComplete: () => {
+                        this.player.clearTint();
+                        this.player.setAlpha(1);
+                    }
+                })
+            }
+        })
+
     }
 
     handleAnimations() {
@@ -239,7 +270,7 @@ class Jeu extends Phaser.Scene {
 
     handleDeath() {
         // Tombe dans vide
-        if (this.player.y > config.height + this.player.height) {
+        if (this.player.y > config.height + this.player.height || this.player.hp == 0) {
             this.scene.start("PartieTerminee");
         }
     }

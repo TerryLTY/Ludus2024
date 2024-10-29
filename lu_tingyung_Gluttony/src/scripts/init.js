@@ -5,6 +5,7 @@ const config = {
   height: 720,
   scene: [Accueil, Jeu, CommentJouer, Credits, PartieTerminee, Victoire],
   pixelArt: true,
+  debug: true,
   physics: {
     default: "arcade"
   }

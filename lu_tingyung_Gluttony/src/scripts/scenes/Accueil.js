@@ -1,9 +1,11 @@
 class Accueil extends Phaser.Scene {
-    constructor()  {
-        super({ key:"Accueil" });
+    constructor() {
+        super({
+            key: "Accueil"
+        });
     }
 
-    preload() { 
+    preload() {
         this.load.image("logo", "./assets/images/ui/Gluttony.png");
         this.load.image("bgAccueil", "./assets/images/backgrounds/bg_accueil.png");
         this.load.image("commencer", "./assets/images/ui/Commencer.png");
@@ -11,12 +13,12 @@ class Accueil extends Phaser.Scene {
         this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
         this.load.image("sons", "./assets/images/ui/Sons.png");
     }
-  
+
     create() {
-        this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0,0);
+        this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0, 0);
         this.bgAccueil.setPosition(-525, -250);
 
-        this.logo = this.add.image(188, 80, "logo").setOrigin(0,0);
+        this.logo = this.add.image(188, 80, "logo").setOrigin(0, 0);
         this.logo.setPosition(465, 150);
 
         this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
@@ -56,9 +58,8 @@ class Accueil extends Phaser.Scene {
             duration: 3000,
             repeat: -1,
             yoyo: true
-          });
+        });
     }
-  
+
     update() {}
-  }
-  
+}

@@ -14,6 +14,7 @@ class Jeu extends Phaser.Scene {
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
 
         this.load.image("item", "./assets/images/items/item_dash.png");
+        this.load.image("coeur", "./assets/images/ui/coeur.png");
 
         this.load.spritesheet(
             "player",
@@ -104,15 +105,6 @@ class Jeu extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: "attack",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 0,
-                end: 7
-            }),
-            frameRate: 10,
-            repeat: 0
-        });
 
         // item
         this.item = this.physics.add.image(700, 250, "item").setScale(2);
@@ -151,14 +143,27 @@ class Jeu extends Phaser.Scene {
                 this.scene.start("Accueil");
             }
         });
+
+        // Vies
+        this.vie1 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
+        this.vie1.setPosition(250, 150);
+        this.vie1.setInteractive();
+
+        this.vie2 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
+        this.vie2.setPosition(300, 150);
+        this.vie2.setInteractive();
+
+        this.vie3 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
+        this.vie3.setPosition(350, 150);
+        this.vie3.setInteractive();
     }
 
     update() {
         this.handleMovement();
         this.handleItems();
-        this.handleAnimations();
         this.handleDeath();
         this.nextLevel();
+        this.handleAnimations();
     }
 
     handleMovement() {
@@ -199,10 +204,12 @@ class Jeu extends Phaser.Scene {
         // DASH
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y - 100);
+                this.player.setPosition(this.player.x - 100, this.player.y);
+                this.player.setVelocityY(-500);
                 this.dash()
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y - 100);
+                this.player.setPosition(this.player.x + 100, this.player.y);
+                this.player.setVelocityY(-500);
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.player.setPosition(this.player.x - 100, this.player.y);
@@ -228,6 +235,68 @@ class Jeu extends Phaser.Scene {
                 }
             }
         );
+
+        this.spinTween = this.tweens.add({
+            targets: this.item,
+            rotation: 30,
+            duration: 5000,
+            repeat: -1
+        })
+    }
+
+    dash() {
+        this.player.setTint(0x7fdcff);
+        this.player.setAlpha(0.8)
+        this.flashTween = this.tweens.add({
+            targets: this.player,
+            alpha: {
+                from: 0.2,
+                to: 0.5
+            },
+            duration: 100,
+            repeat: 5,
+            yoyo: true,
+            onComplete: () => {
+                this.player.clearTint();
+                this.player.setAlpha(1);
+            }
+        })
+    }
+
+    handleDeath() {
+        // Tombe dans le vide
+        if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
+            this.scene.start("PartieTerminee");
+        } else if (this.player.y > config.height + this.player.height) {
+            this.player.hp--;
+            this.player.setPosition(300, 400);
+            this.vie()
+        }
+    }
+
+    vie() {
+        if (this.player.hp == 2) {
+            this.vie3.setAlpha(0)
+        } else if (this.player.hp == 1) {
+            this.vie2.setAlpha(0)
+            this.vieTween = this.tweens.add({
+                targets: this.vie1,
+                scale: 0.33,
+                duration: 350,
+                repeat: -1,
+                yoyo: true,
+                onComplete: () => {
+                    this.player.clearTint();
+                    this.player.setAlpha(1);
+                }
+            })
+        }
+    }
+
+    nextLevel() {
+        if (this.player.x > config.width + this.player.width) {
+            this.scene.start("Victoire");
+        }
     }
 
     handleAnimations() {
@@ -247,41 +316,6 @@ class Jeu extends Phaser.Scene {
             } else {
                 this.player.anims.play("idle", true);
             }
-        }
-    }
-
-    dash() {
-        this.player.setTint(0x7fdcff);
-        this.player.setAlpha(0.8);
-        this.flashTween = this.tweens.add({
-            targets: this.player,
-            alpha: {
-                from: 0.2,
-                to: 0.5
-            },
-            duration: 100,
-            repeat: 5,
-            yoyo: true,
-            onComplete: () => {
-                this.player.clearTint();
-                this.player.setAlpha(1);
-            }
-        })
-    }
-
-    handleDeath() {
-        // Tombe dans vide
-        if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
-            this.scene.start("PartieTerminee");
-        } else if (this.player.y > config.height + this.player.height) {
-            this.player.hp--;
-            this.player.setPosition(300, 400)
-        }
-    }
-
-    nextLevel() {
-        if (this.player.x > config.width + this.player.width) {
-            this.scene.start("Victoire");
         }
     }
 }

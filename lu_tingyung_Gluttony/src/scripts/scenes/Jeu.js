@@ -7,8 +7,7 @@ class Jeu extends Phaser.Scene {
 
     preload() {
         // Tiled
-        this.load.tilemapTiledJSON("carte_json", "./assets/images/tiled_images/carte.json");
-        this.load.image("01background", "./assets/images/tiled_images/01 background.png");
+        this.load.tilemapTiledJSON("carte1_json", "./assets/images/tiled_images/carte1.json");
         this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
 
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
@@ -28,26 +27,35 @@ class Jeu extends Phaser.Scene {
     create() {
         // Tilemap
         const maCarte = this.make.tilemap({
-            key: "carte_json"
+            key: "carte1_json"
         });
 
         // Tileset
-        const tileset01Background = maCarte.addTilesetImage("01 background", "01background");
         const tilesetMainLevBuild = maCarte.addTilesetImage("main_lev_build", "mainLevBuild");
 
         // Calques
-        const bgLayer = maCarte.createLayer("fond", [tileset01Background], 0, 0);
+        const bgLayer = maCarte.createLayer("fond", [tilesetMainLevBuild], 0, 0);
         const collisionLayer = maCarte.createLayer("sol", [tilesetMainLevBuild], 0, 0);
+        const collisionLayer2 = maCarte.createLayer("sol2", [tilesetMainLevBuild], 0, 0);
+        const goalLayer = maCarte.createLayer("objectif", [tilesetMainLevBuild], 0, 0);
 
         collisionLayer.setCollisionByProperty({
             collision: true
         });
 
+        collisionLayer2.setCollisionByProperty({
+            collision: true
+        });
+
+        goalLayer.setCollisionByProperty({
+            collision: true
+        });
+
 
         // Joueur
-        this.player = this.physics.add.sprite(300, 450, "player");
+        this.player = this.physics.add.sprite(50, 250, "player");
         this.player
-            .setScale(1.2)
+            .setScale(1)
             .setSize(16, 16)
             .setOffset(9, 16);
         this.player.body.setGravityY(1000);
@@ -107,12 +115,18 @@ class Jeu extends Phaser.Scene {
         });
 
         // item
-        this.item = this.physics.add.image(700, 250, "item").setScale(2);
+        this.item = this.physics.add.image(675, 550, "item").setScale(2);
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {
             this.jumpCount = 0;
             this.jumpKeyReleased = true;
+        });
+
+        this.physics.add.collider(this.player, collisionLayer2);
+
+        this.physics.add.collider(this.player, goalLayer, () => {
+            this.scene.start("Victoire");
         });
 
         // Touches
@@ -162,13 +176,12 @@ class Jeu extends Phaser.Scene {
         this.handleMovement();
         this.handleItems();
         this.handleDeath();
-        this.nextLevel();
         this.handleAnimations();
     }
 
     handleMovement() {
         const walkSpeed = 125;
-        const runSpeed = 250;
+        const runSpeed = 225;
         let velocity = walkSpeed;
 
         // Dash
@@ -196,7 +209,7 @@ class Jeu extends Phaser.Scene {
             this.jumpKeyReleased &&
             (this.player.body.touching.down || this.jumpCount < 2)
         ) {
-            this.player.setVelocityY(-500);
+            this.player.setVelocityY(-400);
             this.jumpCount++;
             this.jumpKeyReleased = false;
         }
@@ -204,12 +217,10 @@ class Jeu extends Phaser.Scene {
         // DASH
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y);
-                this.player.setVelocityY(-500);
+                this.player.setPosition(this.player.x - 100, this.player.y - 100);
                 this.dash()
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y);
-                this.player.setVelocityY(-500);
+                this.player.setPosition(this.player.x + 100, this.player.y - 100);
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.player.setPosition(this.player.x - 100, this.player.y);
@@ -250,8 +261,8 @@ class Jeu extends Phaser.Scene {
         this.flashTween = this.tweens.add({
             targets: this.player,
             alpha: {
-                from: 0.2,
-                to: 0.5
+                from: 0.8,
+                to: 0.9
             },
             duration: 100,
             repeat: 5,
@@ -269,7 +280,7 @@ class Jeu extends Phaser.Scene {
             this.scene.start("PartieTerminee");
         } else if (this.player.y > config.height + this.player.height) {
             this.player.hp--;
-            this.player.setPosition(300, 400);
+            this.player.setPosition(50, 160);
             this.vie()
         }
     }
@@ -290,12 +301,6 @@ class Jeu extends Phaser.Scene {
                     this.player.setAlpha(1);
                 }
             })
-        }
-    }
-
-    nextLevel() {
-        if (this.player.x > config.width + this.player.width) {
-            this.scene.start("Victoire");
         }
     }
 

@@ -12,6 +12,8 @@ class Accueil extends Phaser.Scene {
         this.load.image("credits", "./assets/images/ui/Credits.png");
         this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
         this.load.image("sons", "./assets/images/ui/Sons.png");
+
+        this.load.audio('accueilMusic', './assets/audio/musique/shadowsofthenight.wav');
     }
 
     create() {
@@ -21,8 +23,10 @@ class Accueil extends Phaser.Scene {
         this.logo = this.add.image(188, 80, "logo").setOrigin(0, 0);
         this.logo.setPosition(465, 150);
 
+        /*
         this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
         this.sons.setPosition(1125, 25);
+        */
 
         this.commencer = this.add.image(0, 0, "commencer").setOrigin(0, 0);
         this.commencer.setPosition(535, 300);
@@ -30,6 +34,7 @@ class Accueil extends Phaser.Scene {
         this.commencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Jeu");
+                this.accueilMusic.stop()
             }
         });
 
@@ -39,6 +44,7 @@ class Accueil extends Phaser.Scene {
         this.credits.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Credits");
+                this.accueilMusic.stop();
             }
         });
 
@@ -48,8 +54,15 @@ class Accueil extends Phaser.Scene {
         this.commentJouer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("CommentJouer");
+                this.accueilMusic.stop();
             }
         });
+
+        // Musique
+        this.accueilMusic = this.sound.add("accueilMusic", {
+            volume: 0.4
+        });
+        this.accueilMusic.play();
 
         // animation titre
         this.tweens.add({

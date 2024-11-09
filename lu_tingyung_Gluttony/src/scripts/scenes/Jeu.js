@@ -13,7 +13,7 @@ class Jeu extends Phaser.Scene {
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
 
         this.load.image("item", "./assets/images/items/item_dash.png");
-        this.load.image("coeur", "./assets/images/ui/coeur.png");
+        this.load.image("coeur", "./assets/images/ui/pixel-heart.png");
 
         this.load.spritesheet(
             "player",
@@ -22,6 +22,13 @@ class Jeu extends Phaser.Scene {
                 frameHeight: 32
             }
         );
+
+        this.load.audio('dashSound', './assets/audio/sfx/dash.wav');
+        this.load.audio('heartbeatSound', './assets/audio/sfx/heartbeat-loop.mp3');
+        this.load.audio('dashItemSound', './assets/audio/sfx/retro-coin.mp3');
+        this.load.audio('cri', './assets/audio/sfx/willhelm-scream.wav');
+
+        this.load.audio('jeuMusic1', './assets/audio/musique/danceofthedeaddark.wav');
     }
 
     create() {
@@ -114,7 +121,17 @@ class Jeu extends Phaser.Scene {
             repeat: -1
         });
 
-        // item
+        // Musique
+        this.jeuMusic1 = this.sound.add("jeuMusic1");
+        this.jeuMusic1.play();
+
+        // Sons
+        this.dashSound = this.sound.add("dashSound");
+        this.heartbeatSound = this.sound.add("heartbeatSound", {loop: true, rate: 0.6, volume: 0.5});
+        this.dashItemSound = this.sound.add("dashItemSound", {volume: 0.4});
+        this.criSound = this.sound.add("cri", {volume: 0.4})
+
+        // Item
         this.item = this.physics.add.image(675, 550, "item").setScale(2);
 
         // Collision
@@ -127,6 +144,8 @@ class Jeu extends Phaser.Scene {
 
         this.physics.add.collider(this.player, goalLayer, () => {
             this.scene.start("Victoire");
+            this.heartbeatSound.stop();
+            this.jeuMusic1.stop()
         });
 
         // Touches
@@ -146,29 +165,31 @@ class Jeu extends Phaser.Scene {
             config.height
         );
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-        this.cameras.main.setZoom(1.5);
+        this.cameras.main.setZoom(1.75);
 
         // Bouton
-        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.5);
-        this.quitter.setPosition(970, 550);
+        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
+        this.quitter.setPosition(945, 535);
         this.quitter.setInteractive();
         this.quitter.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Accueil");
+                this.heartbeatSound.stop();
+                this.jeuMusic1.stop()
             }
         });
 
         // Vies
-        this.vie1 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
-        this.vie1.setPosition(250, 150);
+        this.vie1 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
+        this.vie1.setPosition(295, 175);
         this.vie1.setInteractive();
 
-        this.vie2 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
-        this.vie2.setPosition(300, 150);
+        this.vie2 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
+        this.vie2.setPosition(330, 175);
         this.vie2.setInteractive();
 
-        this.vie3 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
-        this.vie3.setPosition(350, 150);
+        this.vie3 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
+        this.vie3.setPosition(365, 175);
         this.vie3.setInteractive();
     }
 
@@ -184,7 +205,7 @@ class Jeu extends Phaser.Scene {
         const runSpeed = 225;
         let velocity = walkSpeed;
 
-        // Dash
+        // Run
         if (this.keys.shift.isDown) {
             velocity = runSpeed;
         }
@@ -214,7 +235,7 @@ class Jeu extends Phaser.Scene {
             this.jumpKeyReleased = false;
         }
 
-        // DASH
+        // Dash
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
                 this.player.setPosition(this.player.x - 100, this.player.y - 100);
@@ -238,6 +259,7 @@ class Jeu extends Phaser.Scene {
             this.player,
             this.item,
             () => {
+                this.dashItemSound.play()
                 this.player.setAlpha(1);
                 this.player.clearTint();
                 this.item.destroy();
@@ -256,6 +278,7 @@ class Jeu extends Phaser.Scene {
     }
 
     dash() {
+        this.dashSound.play();
         this.player.setTint(0x7fdcff);
         this.player.setAlpha(0.8)
         this.flashTween = this.tweens.add({
@@ -278,9 +301,13 @@ class Jeu extends Phaser.Scene {
         // Tombe dans le vide
         if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
             this.scene.start("PartieTerminee");
+            this.heartbeatSound.stop();
+            this.criSound.play();
+            this.jeuMusic1.stop()
         } else if (this.player.y > config.height + this.player.height) {
+            this.criSound.play();
             this.player.hp--;
-            this.player.setPosition(50, 160);
+            this.player.setPosition(50, 250);
             this.vie()
         }
     }
@@ -289,18 +316,19 @@ class Jeu extends Phaser.Scene {
         if (this.player.hp == 2) {
             this.vie3.setAlpha(0)
         } else if (this.player.hp == 1) {
-            this.vie2.setAlpha(0)
+            this.vie2.setAlpha(0);
             this.vieTween = this.tweens.add({
                 targets: this.vie1,
-                scale: 0.33,
-                duration: 350,
+                scale: 0.06,
+                duration: 580,
                 repeat: -1,
                 yoyo: true,
                 onComplete: () => {
                     this.player.clearTint();
                     this.player.setAlpha(1);
                 }
-            })
+            });
+            this.heartbeatSound.play()
         }
     }
 

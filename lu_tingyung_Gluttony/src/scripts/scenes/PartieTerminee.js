@@ -7,6 +7,8 @@ class PartieTerminee extends Phaser.Scene {
         this.load.image("recommencer", "./assets/images/ui/Recommencer.png");
         this.load.image("menuPrincipal", "./assets/images/ui/Menu principal.png");
         this.load.image("RIP", "./assets/images/ui/Vous êtes mort.png");
+
+        this.load.audio('deathSound', './assets/audio/sfx/gameover.mp3');
     }
   
     create() {
@@ -26,6 +28,8 @@ class PartieTerminee extends Phaser.Scene {
         this.recommencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Jeu");
+                this.buttonSound.play();
+                this.deathSound.stop()
             }
         });
 
@@ -35,8 +39,15 @@ class PartieTerminee extends Phaser.Scene {
         this.menuPrincipal.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Accueil");
+                this.buttonSound.play();
+                this.deathSound.stop()
             }
         });
+
+        // Sons
+        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
+        this.deathSound = this.sound.add("deathSound", { volume: 0.2 });
+        this.deathSound.play()
     }
   
     update() {}

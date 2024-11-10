@@ -11,6 +11,7 @@ class Jeu extends Phaser.Scene {
         this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
 
         this.load.image("quitter", "./assets/images/ui/Quitter.png");
+        this.load.image("sons", "./assets/images/ui/Sons.png");
 
         this.load.image("item", "./assets/images/items/item_dash.png");
         this.load.image("coeur", "./assets/images/ui/pixel-heart.png");
@@ -18,15 +19,18 @@ class Jeu extends Phaser.Scene {
         this.load.spritesheet(
             "player",
             "./assets/images/characters/player_spritesheet.png", {
-                frameWidth: 32,
-                frameHeight: 32
-            }
+            frameWidth: 32,
+            frameHeight: 32
+        }
         );
 
+        this.load.audio('jumpSound', './assets/audio/sfx/jump.wav');
         this.load.audio('dashSound', './assets/audio/sfx/dash.wav');
         this.load.audio('heartbeatSound', './assets/audio/sfx/heartbeat-loop.mp3');
         this.load.audio('dashItemSound', './assets/audio/sfx/retro-coin.mp3');
         this.load.audio('cri', './assets/audio/sfx/willhelm-scream.wav');
+        this.load.audio('deny', './assets/audio/sfx/wrong.mp3');
+        this.load.audio('doorSound', './assets/audio/sfx/door.wav');
 
         this.load.audio('jeuMusic1', './assets/audio/musique/danceofthedeaddark.wav');
     }
@@ -126,13 +130,18 @@ class Jeu extends Phaser.Scene {
         this.jeuMusic1.play();
 
         // Sons
+        this.jumpSound = this.sound.add("jumpSound");
         this.dashSound = this.sound.add("dashSound");
-        this.heartbeatSound = this.sound.add("heartbeatSound", {loop: true, rate: 0.6, volume: 0.5});
-        this.dashItemSound = this.sound.add("dashItemSound", {volume: 0.4});
-        this.criSound = this.sound.add("cri", {volume: 0.4})
+        this.heartbeatSound = this.sound.add("heartbeatSound", { loop: true, rate: 0.6, volume: 0.5 });
+        this.dashItemSound = this.sound.add("dashItemSound", { volume: 0.4 });
+        this.criSound = this.sound.add("cri", { volume: 0.4 });
+        this.denySound = this.sound.add("deny", { volume: 0.2 });
+        this.doorSound = this.sound.add("doorSound", { volume: 0.5 });
+        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
 
         // Item
         this.item = this.physics.add.image(675, 550, "item").setScale(2);
+        this.coeur = this.physics.add.image(950, 625, "coeur").setScale(0.04);
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {
@@ -143,6 +152,7 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2);
 
         this.physics.add.collider(this.player, goalLayer, () => {
+            this.doorSound.play();
             this.scene.start("Victoire");
             this.heartbeatSound.stop();
             this.jeuMusic1.stop()
@@ -174,8 +184,9 @@ class Jeu extends Phaser.Scene {
         this.quitter.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Accueil");
+                this.buttonSound.play();
                 this.heartbeatSound.stop();
-                this.jeuMusic1.stop()
+                this.jeuMusic1.stop();
             }
         });
 
@@ -233,6 +244,7 @@ class Jeu extends Phaser.Scene {
             this.player.setVelocityY(-400);
             this.jumpCount++;
             this.jumpKeyReleased = false;
+            this.jumpSound.play()
         }
 
         // Dash
@@ -255,6 +267,30 @@ class Jeu extends Phaser.Scene {
     }
 
     handleItems() {
+        // Coeurs
+        this.physics.add.overlap(
+            this.player,
+            this.coeur,
+            () => {
+                if (this.player.hp == 2) {
+                    this.coeur.destroy();
+                    this.player.hp++;
+                    this.vie3.setAlpha(1);
+                    this.dashItemSound.play()
+                } else if (this.player.hp == 1) {
+                    this.coeur.destroy();
+                    this.player.hp++;
+                    this.vie2.setAlpha(1);
+                    this.vieTween.stop();
+                    this.heartbeatSound.stop();
+                    this.dashItemSound.play()
+                } else {
+                    this.denySound.play()
+                }
+            }
+        );
+
+        // Dash items
         this.physics.add.overlap(
             this.player,
             this.item,
@@ -302,7 +338,6 @@ class Jeu extends Phaser.Scene {
         if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
             this.scene.start("PartieTerminee");
             this.heartbeatSound.stop();
-            this.criSound.play();
             this.jeuMusic1.stop()
         } else if (this.player.y > config.height + this.player.height) {
             this.criSound.play();
@@ -322,11 +357,7 @@ class Jeu extends Phaser.Scene {
                 scale: 0.06,
                 duration: 580,
                 repeat: -1,
-                yoyo: true,
-                onComplete: () => {
-                    this.player.clearTint();
-                    this.player.setAlpha(1);
-                }
+                yoyo: true
             });
             this.heartbeatSound.play()
         }

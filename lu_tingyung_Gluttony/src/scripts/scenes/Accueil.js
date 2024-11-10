@@ -13,6 +13,8 @@ class Accueil extends Phaser.Scene {
         this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
         this.load.image("sons", "./assets/images/ui/Sons.png");
 
+        this.load.audio('buttonSound', './assets/audio/sfx/button-click.mp3');
+
         this.load.audio('accueilMusic', './assets/audio/musique/shadowsofthenight.wav');
     }
 
@@ -34,6 +36,7 @@ class Accueil extends Phaser.Scene {
         this.commencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Jeu");
+                this.buttonSound.play();
                 this.accueilMusic.stop()
             }
         });
@@ -44,6 +47,7 @@ class Accueil extends Phaser.Scene {
         this.credits.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Credits");
+                this.buttonSound.play();
                 this.accueilMusic.stop();
             }
         });
@@ -54,14 +58,16 @@ class Accueil extends Phaser.Scene {
         this.commentJouer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("CommentJouer");
+                this.buttonSound.play();
                 this.accueilMusic.stop();
             }
         });
 
+        // Sons
+        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
+
         // Musique
-        this.accueilMusic = this.sound.add("accueilMusic", {
-            volume: 0.4
-        });
+        this.accueilMusic = this.sound.add("accueilMusic", { volume: 0.4 });
         this.accueilMusic.play();
 
         // animation titre
@@ -74,5 +80,5 @@ class Accueil extends Phaser.Scene {
         });
     }
 
-    update() {}
+    update() { }
 }

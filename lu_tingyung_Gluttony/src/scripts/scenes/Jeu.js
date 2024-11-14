@@ -37,7 +37,7 @@ class Jeu extends Phaser.Scene {
 
     create() {
         // Transition
-        this.fadeIn = this.cameras.main.postFX.addCircle(8, 0x000000, 0x000000, 0, 0.005);
+        this.fadeIn = this.cameras.main.postFX.addCircle(8, 0x222222, 0x222222, 0, 0.005);
         this.start();
 
         // Tilemap

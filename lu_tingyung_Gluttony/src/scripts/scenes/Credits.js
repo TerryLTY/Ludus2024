@@ -26,6 +26,21 @@ class Credits extends Phaser.Scene {
                 this.buttonSound.play();
             }
         });
+        this.retour.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.retour,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        this.retour.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.retour,
+                scale: 1,
+                duration: 100
+            });
+        });
+
 
         // Sons
         this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });

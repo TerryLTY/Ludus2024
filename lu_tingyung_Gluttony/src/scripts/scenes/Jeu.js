@@ -19,9 +19,9 @@ class Jeu extends Phaser.Scene {
         this.load.spritesheet(
             "player",
             "./assets/images/characters/player_spritesheet.png", {
-            frameWidth: 32,
-            frameHeight: 32
-        }
+                frameWidth: 32,
+                frameHeight: 32
+            }
         );
 
         this.load.audio('jumpSound', './assets/audio/sfx/jump.wav');
@@ -36,6 +36,10 @@ class Jeu extends Phaser.Scene {
     }
 
     create() {
+        // Transition
+        this.fadeIn = this.cameras.main.postFX.addCircle(8, 0x000000, 0x000000, 0, 0.005);
+        this.start();
+
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -132,12 +136,26 @@ class Jeu extends Phaser.Scene {
         // Sons
         this.jumpSound = this.sound.add("jumpSound");
         this.dashSound = this.sound.add("dashSound");
-        this.heartbeatSound = this.sound.add("heartbeatSound", { loop: true, rate: 0.6, volume: 0.5 });
-        this.dashItemSound = this.sound.add("dashItemSound", { volume: 0.4 });
-        this.criSound = this.sound.add("cri", { volume: 0.4 });
-        this.denySound = this.sound.add("deny", { volume: 0.2 });
-        this.doorSound = this.sound.add("doorSound", { volume: 0.5 });
-        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
+        this.heartbeatSound = this.sound.add("heartbeatSound", {
+            loop: true,
+            rate: 0.6,
+            volume: 0.5
+        });
+        this.dashItemSound = this.sound.add("dashItemSound", {
+            volume: 0.4
+        });
+        this.criSound = this.sound.add("cri", {
+            volume: 0.4
+        });
+        this.denySound = this.sound.add("deny", {
+            volume: 0.2
+        });
+        this.doorSound = this.sound.add("doorSound", {
+            volume: 0.5
+        });
+        this.buttonSound = this.sound.add("buttonSound", {
+            volume: 0.4
+        });
 
         // Item
         this.item = this.physics.add.image(675, 550, "item").setScale(2);
@@ -188,6 +206,20 @@ class Jeu extends Phaser.Scene {
                 this.heartbeatSound.stop();
                 this.jeuMusic1.stop();
             }
+        });
+        this.quitter.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.quitter,
+                scale: 0.32,
+                duration: 100
+            });
+        });
+        this.quitter.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.quitter,
+                scale: 0.3,
+                duration: 100
+            });
         });
 
         // Vies
@@ -249,21 +281,48 @@ class Jeu extends Phaser.Scene {
 
         // Dash
         this.input.on('pointerdown', (pointer) => {
-            if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y - 100);
+            if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.left.isDown && this.player.alpha == 1) {
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x - 80,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
                 this.dash()
+                this.player.setVelocityY(-100);
+            } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.right.isDown & this.player.alpha == 1) {
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x + 80,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
+                this.dash()
+                this.player.setVelocityY(-100);
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y - 100);
+                this.tweens.add({
+                    targets: this.player,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
                 this.dash()
+                this.player.setVelocityY(-100)
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x - 80,
+                    duration: 100
+                })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x + 80,
+                    duration: 100
+                })
                 this.dash()
             }
         })
-
     }
 
     handleItems() {
@@ -272,12 +331,12 @@ class Jeu extends Phaser.Scene {
             this.player,
             this.coeur,
             () => {
-                if (this.player.hp == 2) {
+                if (this.player.hp == 2 && this.coeur.alpha == 1) {
                     this.coeur.destroy();
                     this.player.hp++;
                     this.vie3.setAlpha(1);
                     this.dashItemSound.play()
-                } else if (this.player.hp == 1) {
+                } else if (this.player.hp == 1 && this.coeur.alpha == 1) {
                     this.coeur.destroy();
                     this.player.hp++;
                     this.vie2.setAlpha(1);
@@ -285,7 +344,9 @@ class Jeu extends Phaser.Scene {
                     this.heartbeatSound.stop();
                     this.dashItemSound.play()
                 } else {
-                    this.denySound.play()
+                    this.coeur.destroy();
+                    this.denySound.play();
+                    
                 }
             }
         );
@@ -342,7 +403,9 @@ class Jeu extends Phaser.Scene {
         } else if (this.player.y > config.height + this.player.height) {
             this.criSound.play();
             this.player.hp--;
-            this.player.setPosition(50, 250);
+            this.dash();
+            this.dashSound.stop();
+            this.player.setPosition(50, 100);
             this.vie()
         }
     }
@@ -382,4 +445,13 @@ class Jeu extends Phaser.Scene {
             }
         }
     }
+
+    start() {
+        this.fadeInTweens = this.tweens.add({
+            targets: this.fadeIn,
+            scale: 2.1,
+            duration: 600,
+            delay: 100
+        });
+    } 
 }

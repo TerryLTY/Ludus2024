@@ -33,7 +33,7 @@ class Victoire extends Phaser.Scene {
 
 
         this.menuPrincipal = this.add.image(0, 0, "menuPrincipal").setOrigin(0, 0);
-        this.menuPrincipal.setPosition(910, 600);
+        this.menuPrincipal.setPosition(910, 590);
         this.menuPrincipal.setInteractive();
         this.menuPrincipal.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -42,6 +42,21 @@ class Victoire extends Phaser.Scene {
                 this.winSound.stop()
             }
         });
+        this.menuPrincipal.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.menuPrincipal,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        this.menuPrincipal.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.menuPrincipal,
+                scale: 1,
+                duration: 100
+            });
+        });
+
 
         // Sons
         this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });

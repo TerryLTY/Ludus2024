@@ -24,6 +24,7 @@ class Accueil extends Phaser.Scene {
 
         this.logo = this.add.image(188, 80, "logo").setOrigin(0, 0);
         this.logo.setPosition(465, 150);
+        this.logo.postFX.addShadow(0.8, 1.3, 0.1, 1.5, 0x000000, 2, 2)
 
         /*
         this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
@@ -35,10 +36,24 @@ class Accueil extends Phaser.Scene {
         this.commencer.setInteractive();
         this.commencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
-                this.scene.start("Jeu");
+                this.start();
                 this.buttonSound.play();
                 this.accueilMusic.stop()
             }
+        });
+        this.commencer.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.commencer,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        this.commencer.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.commencer,
+                scale: 1,
+                duration: 100
+            });
         });
 
         this.credits = this.add.image(0, 0, "credits").setOrigin(0, 0);
@@ -51,6 +66,20 @@ class Accueil extends Phaser.Scene {
                 this.accueilMusic.stop();
             }
         });
+        this.credits.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.credits,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        this.credits.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.credits,
+                scale: 1,
+                duration: 100
+            });
+        });
 
         this.commentJouer = this.add.image(0, 0, "commentJouer").setOrigin(0, 0);
         this.commentJouer.setPosition(890, 600);
@@ -62,6 +91,20 @@ class Accueil extends Phaser.Scene {
                 this.accueilMusic.stop();
             }
         });
+        this.commentJouer.on("pointerover", () => {
+            this.tweens.add({
+                targets: this.commentJouer,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        this.commentJouer.on("pointerout", () => {
+            this.tweens.add({
+                targets: this.commentJouer,
+                scale: 1,
+                duration: 100
+            });
+        });
 
         // Sons
         this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
@@ -70,7 +113,7 @@ class Accueil extends Phaser.Scene {
         this.accueilMusic = this.sound.add("accueilMusic", { volume: 0.4 });
         this.accueilMusic.play();
 
-        // animation titre
+        // Animation titre
         this.tweens.add({
             targets: this.logo,
             scale: 1.1,
@@ -78,7 +121,21 @@ class Accueil extends Phaser.Scene {
             repeat: -1,
             yoyo: true
         });
+
+        // Fade out
+        this.fadeOut = this.cameras.main.postFX.addCircle(8, 0x000000, 0x000000, 2.1, 0.005);
     }
 
-    update() { }
+    update() {}
+
+    start() {
+        this.fadeOutTweens = this.tweens.add({
+            targets: this.fadeOut,
+            scale: 0,
+            duration: 600,
+            onComplete: () => {
+                this.scene.start("Jeu");
+            }
+        });
+    } 
 }

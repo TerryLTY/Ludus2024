@@ -12,6 +12,10 @@ class Accueil extends Phaser.Scene {
         this.load.image("credits", "./assets/images/ui/Credits.png");
         this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
         this.load.image("sons", "./assets/images/ui/Sons.png");
+
+        this.load.audio('buttonSound', './assets/audio/sfx/button-click.mp3');
+
+        this.load.audio('accueilMusic', './assets/audio/musique/shadowsofthenight.wav');
     }
 
     create() {
@@ -23,6 +27,18 @@ class Accueil extends Phaser.Scene {
 
         this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
         this.sons.setPosition(1125, 25);
+        this.sons.setInteractive();
+        this.sons.on("pointerdown", (pointer) => {
+            if (pointer.leftButtonDown()) {
+                if (!game.sound.mute) {
+                    game.sound.mute = true;
+                    this.sons.setTint(0x555555);
+                } else {
+                    game.sound.mute = false;
+                    this.sons.clearTint();
+                }
+            }
+        });
 
         this.commencer = this.add.image(0, 0, "commencer").setOrigin(0, 0);
         this.commencer.setPosition(535, 300);
@@ -30,6 +46,8 @@ class Accueil extends Phaser.Scene {
         this.commencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Jeu");
+                this.buttonSound.play();
+                this.accueilMusic.stop()
             }
         });
 
@@ -39,6 +57,8 @@ class Accueil extends Phaser.Scene {
         this.credits.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Credits");
+                this.buttonSound.play();
+                this.accueilMusic.stop();
             }
         });
 
@@ -48,8 +68,21 @@ class Accueil extends Phaser.Scene {
         this.commentJouer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("CommentJouer");
+                this.buttonSound.play();
+                this.accueilMusic.stop();
             }
         });
+
+        // Sons
+        this.buttonSound = this.sound.add("buttonSound", {
+            volume: 0.4
+        });
+
+        // Musique
+        this.accueilMusic = this.sound.add("accueilMusic", {
+            volume: 0.4
+        });
+        this.accueilMusic.play();
 
         // animation titre
         this.tweens.add({

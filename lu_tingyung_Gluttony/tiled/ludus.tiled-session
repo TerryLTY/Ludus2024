@@ -10,22 +10,31 @@
     "fileStates": {
         "untitled.tmx": {
             "scale": 0.75,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 558,
-                "y": 122
+                "x": 621.9999999999999,
+                "y": 243.33333333333337
             }
         },
         "untitled.tmx#01 background": {
             "scaleInDock": 1
         },
+        "untitled.tmx#02 background": {
+            "scaleInDock": 0.5
+        },
+        "untitled.tmx#03 background A": {
+            "scaleInDock": 0.5
+        },
+        "untitled.tmx#03 background B": {
+            "scaleInDock": 0.5
+        },
         "untitled.tmx#main_lev_build": {
-            "scaleInDock": 0.5,
+            "scaleInDock": 0.25,
             "scaleInEditor": 0.33
         }
     },
-    "last.exportedFilePath": "D:/GitHub/Ludus2024/lu-tingyung_devoir_03_582-301MO/assets/images",
-    "last.imagePath": "D:/GitHub/Ludus2024/lu-tingyung_devoir_03_582-301MO/tiled",
+    "last.exportedFilePath": "D:/Github/Ludus2024/lu_tingyung_Gluttony/assets/images",
+    "last.imagePath": "D:/Github/Ludus2024/lu_tingyung_Gluttony/tiled",
     "map.height": 45,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",

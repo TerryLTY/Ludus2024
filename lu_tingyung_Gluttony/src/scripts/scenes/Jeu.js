@@ -264,16 +264,34 @@ class Jeu extends Phaser.Scene {
         // Dash
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y - 100);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x - 80,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y - 100);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x + 80,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x - 100, this.player.y);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x - 80,
+                    duration: 100
+                })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
-                this.player.setPosition(this.player.x + 100, this.player.y);
+                this.tweens.add({
+                    targets: this.player,
+                    x: this.player.x + 80,
+                    duration: 100
+                })
                 this.dash()
             }
         })
@@ -356,6 +374,7 @@ class Jeu extends Phaser.Scene {
         } else if (this.player.y > config.height + this.player.height) {
             this.criSound.play();
             this.player.hp--;
+            this.dash();
             this.player.setPosition(50, 100);
             this.vie()
         }

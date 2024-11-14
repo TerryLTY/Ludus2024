@@ -261,9 +261,14 @@ class Jeu extends Phaser.Scene {
             this.jumpSound.play()
         }
 
+        // Tomber
+        if (this.isFalling) {
+            this.player.setVelocityY(-400);
+        }
+
         // Dash
         this.input.on('pointerdown', (pointer) => {
-            if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.flipX && this.player.alpha == 1) {
+            if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.left.isDown && this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,
                     x: this.player.x - 80,
@@ -271,7 +276,7 @@ class Jeu extends Phaser.Scene {
                     duration: 100
                 })
                 this.dash()
-            } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
+            } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.right.isDown & this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,
                     x: this.player.x + 80,
@@ -279,6 +284,15 @@ class Jeu extends Phaser.Scene {
                     duration: 100
                 })
                 this.dash()
+
+            } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
+                this.tweens.add({
+                    targets: this.player,
+                    y: this.player.y - 80,
+                    duration: 100
+                })
+                this.dash()
+                this.player.setVelocityY(-100)
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,

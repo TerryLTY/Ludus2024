@@ -5,7 +5,7 @@ class Accueil extends Phaser.Scene {
         });
     }
 
-    preload() {}
+    preload() { }
 
     create() {
         niveauActuel = "jeu"
@@ -149,5 +149,5 @@ class Accueil extends Phaser.Scene {
         });
     }
 
-    update() {}
+    update() { }
 }

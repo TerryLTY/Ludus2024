@@ -55,52 +55,6 @@ class Jeu2 extends Phaser.Scene {
         // Animations
         this.isFalling = false;
         this.isJumping = false;
-        this.anims.create({
-            key: "idle",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 12,
-                end: 16
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.player.anims.play("idle");
-        this.anims.create({
-            key: "walk",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 23,
-                end: 29
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "jump",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 18,
-                end: 19
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "fall",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 20,
-                end: 22
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "die",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 8,
-                end: 11
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
 
         // Musique
         this.jeuMusic1 = this.sound.add("jeuMusic1");
@@ -110,9 +64,9 @@ class Jeu2 extends Phaser.Scene {
         this.jumpSound = this.sound.add("jumpSound");
         this.dashSound = this.sound.add("dashSound");
         this.heartbeatSound = this.sound.add("heartbeatSound", {
-            loop: true,
             rate: 0.6,
-            volume: 0.5
+            volume: 0.5,
+            loop: true
         });
         this.dashItemSound = this.sound.add("dashItemSound", {
             volume: 0.4
@@ -314,13 +268,11 @@ class Jeu2 extends Phaser.Scene {
                     this.coeur.destroy();
                     this.player.hp++;
                     this.vie2.setAlpha(1);
-                    this.vieTween.stop();
                     this.heartbeatSound.stop();
                     this.dashItemSound.play()
                 } else {
                     this.coeur.destroy();
                     this.denySound.play();
-
                 }
             }
         );
@@ -405,14 +357,8 @@ class Jeu2 extends Phaser.Scene {
         if (this.player.hp == 2) {
             this.vie3.setAlpha(0)
         } else if (this.player.hp == 1) {
+            this.vie3.setAlpha(0);
             this.vie2.setAlpha(0);
-            this.vieTween = this.tweens.add({
-                targets: this.vie1,
-                scale: 0.06,
-                duration: 580,
-                repeat: -1,
-                yoyo: true
-            });
             this.heartbeatSound.play()
         }
     }

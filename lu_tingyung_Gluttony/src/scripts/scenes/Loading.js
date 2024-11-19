@@ -83,6 +83,54 @@ class Loading extends Phaser.Scene {
                 this.scene.start("Accueil")
             }
         })
+
+        // Animations
+        
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 12,
+                end: 16
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "walk",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 23,
+                end: 29
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "jump",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 18,
+                end: 19
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "fall",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 20,
+                end: 22
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "die",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 8,
+                end: 11
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
     }
 
     update() {}

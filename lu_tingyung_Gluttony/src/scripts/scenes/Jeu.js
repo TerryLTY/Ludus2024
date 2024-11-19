@@ -5,41 +5,9 @@ class Jeu extends Phaser.Scene {
         });
     }
 
-    preload() {
-        // Tiled
-        this.load.tilemapTiledJSON("carte1_json", "./assets/images/tiled_images/carte1.json");
-        this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
-
-        this.load.image("quitter", "./assets/images/ui/Quitter.png");
-        this.load.image("sons", "./assets/images/ui/Sons.png");
-
-        this.load.image("item", "./assets/images/items/item_dash.png");
-        this.load.image("coeur", "./assets/images/ui/pixel-heart.png");
-
-        this.load.spritesheet(
-            "player",
-            "./assets/images/characters/player_spritesheet.png", {
-                frameWidth: 32,
-                frameHeight: 32
-            }
-        );
-
-        this.load.audio('jumpSound', './assets/audio/sfx/jump.wav');
-        this.load.audio('dashSound', './assets/audio/sfx/dash.wav');
-        this.load.audio('heartbeatSound', './assets/audio/sfx/heartbeat-loop.mp3');
-        this.load.audio('dashItemSound', './assets/audio/sfx/retro-coin.mp3');
-        this.load.audio('cri', './assets/audio/sfx/willhelm-scream.wav');
-        this.load.audio('deny', './assets/audio/sfx/wrong.mp3');
-        this.load.audio('doorSound', './assets/audio/sfx/door.wav');
-
-        this.load.audio('jeuMusic1', './assets/audio/musique/danceofthedeaddark.wav');
-    }
+    preload() {}
 
     create() {
-        // Transition
-        this.fadeIn = this.cameras.main.postFX.addCircle(8, 0x222222, 0x222222, 0, 0.005);
-        this.start();
-
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -346,7 +314,7 @@ class Jeu extends Phaser.Scene {
                 } else {
                     this.coeur.destroy();
                     this.denySound.play();
-                    
+
                 }
             }
         );
@@ -356,13 +324,30 @@ class Jeu extends Phaser.Scene {
             this.player,
             this.item,
             () => {
-                this.dashItemSound.play()
-                this.player.setAlpha(1);
-                this.player.clearTint();
-                this.item.destroy();
-                if (this.flashTween) {
-                    this.flashTween.stop()
+                if (this.item.alpha == 1) {
+                    this.dashItemSound.play()
+                    this.player.setAlpha(1);
+                    this.player.clearTint();
+                    this.tweens.add({
+                        targets: this.item,
+                        alpha: {
+                            from: 0,
+                            to: 0.3
+                        },
+                        duration: 500,
+                        repeat: 2,
+                        yoyo: true,
+                        onComplete: () => {
+                            this.item.setAlpha(1);
+                        }
+                    })
+                    if (this.flashTween) {
+                        this.flashTween.stop()
+                    }
+                } else {
+
                 }
+
             }
         );
 
@@ -445,13 +430,4 @@ class Jeu extends Phaser.Scene {
             }
         }
     }
-
-    start() {
-        this.fadeInTweens = this.tweens.add({
-            targets: this.fadeIn,
-            scale: 2.1,
-            duration: 600,
-            delay: 100
-        });
-    } 
 }

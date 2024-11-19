@@ -5,11 +5,7 @@ class CommentJouer extends Phaser.Scene {
         });
     }
 
-    preload() {
-        this.load.image("tutoriel", "./assets/images/ui/Tutoriel.png");
-        this.load.image("retour", "./assets/images/ui/Retour.png");
-        this.load.image("bgAccueil", "./assets/images/backgrounds/bg_accueil.png");
-    }
+    preload() {}
 
     create() {
         this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0, 0);
@@ -42,7 +38,9 @@ class CommentJouer extends Phaser.Scene {
         });
 
         // Sons
-        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
+        this.buttonSound = this.sound.add("buttonSound", {
+            volume: 0.4
+        });
     }
 
     update() {}

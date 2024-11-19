@@ -1,14 +1,11 @@
 class Victoire extends Phaser.Scene {
     constructor() {
-        super({ key: "Victoire" });
+        super({
+            key: "Victoire"
+        });
     }
 
-    preload() {
-        this.load.image("felicitations", "./assets/images/ui/Felicitations.png");
-        this.load.image("menuPrincipal", "./assets/images/ui/Menu principal.png");
-
-        this.load.audio('winSound', './assets/audio/sfx/win.mp3');
-    }
+    preload() {}
 
     create() {
         this.felicitations = this.add.image(0, 0, "felicitations").setOrigin(0, 0);
@@ -59,10 +56,14 @@ class Victoire extends Phaser.Scene {
 
 
         // Sons
-        this.buttonSound = this.sound.add("buttonSound", { volume: 0.4 });
-        this.winSound = this.sound.add("winSound", { volume: 0.8 });
+        this.buttonSound = this.sound.add("buttonSound", {
+            volume: 0.4
+        });
+        this.winSound = this.sound.add("winSound", {
+            volume: 0.8
+        });
         this.winSound.play()
     }
 
-    update() { }
+    update() {}
 }

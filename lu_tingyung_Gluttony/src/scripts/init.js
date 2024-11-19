@@ -11,13 +11,3 @@ const config = {
   }
 };
 const game = new Phaser.Game(config);
-
-const sauvegarde = {
-  niveau: niveauActuel,
-  vies: viesActuel,
-  objets: objetsCollectes
-};
-
-viesActuel = 1
-
-localStorage.setItem('sauvegardeJeu', JSON.stringify(sauvegarde));

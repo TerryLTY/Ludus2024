@@ -8,6 +8,8 @@ class Accueil extends Phaser.Scene {
     preload() {}
 
     create() {
+        niveauActuel = "jeu"
+
         this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0, 0);
         this.bgAccueil.setPosition(-525, -250);
 

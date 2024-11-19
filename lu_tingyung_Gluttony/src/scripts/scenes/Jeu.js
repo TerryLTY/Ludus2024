@@ -8,6 +8,10 @@ class Jeu extends Phaser.Scene {
     preload() {}
 
     create() {
+        const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
+
+        niveauActuel = "Jeu"
+
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -138,14 +142,16 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2);
 
         this.physics.add.collider(this.player, goalLayer, () => {
-            this.doorSound.play();
-            this.scene.start("Jeu2");
-            this.heartbeatSound.stop();
-            this.jeuMusic1.stop();
             const sauvegarde = {
                 vies: this.player.hp
             };
             localStorage.setItem('sauvegardeJeu', JSON.stringify(sauvegarde));
+
+            this.doorSound.play();
+            this.scene.start("Jeu2");
+            this.heartbeatSound.stop();
+            this.jeuMusic1.stop();
+            
         });
 
         // Touches
@@ -395,22 +401,24 @@ class Jeu extends Phaser.Scene {
             this.dash();
             this.dashSound.stop();
             this.player.setPosition(50, 100);
-            this.vie()
+            this.vie();
         }
     }
 
     vie() {
+        this.vieTween = this.tweens.add({
+            targets: this.vie1,
+            scale: 0.06,
+            duration: 580,
+            repeat: -1,
+            yoyo: true
+        });
         if (this.player.hp == 2) {
             this.vie3.setAlpha(0)
+            this.vieTween.stop()
         } else if (this.player.hp == 1) {
             this.vie2.setAlpha(0);
-            this.vieTween = this.tweens.add({
-                targets: this.vie1,
-                scale: 0.06,
-                duration: 580,
-                repeat: -1,
-                yoyo: true
-            });
+            this.vieTween.play();
             this.heartbeatSound.play()
         }
     }
@@ -433,10 +441,6 @@ class Jeu extends Phaser.Scene {
                 this.player.anims.play("idle", true);
             }
         }
-    }
-
-    sauvegarde() {
-
     }
 
 }

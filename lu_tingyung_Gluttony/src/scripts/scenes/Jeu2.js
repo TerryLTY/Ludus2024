@@ -8,9 +8,10 @@ class Jeu2 extends Phaser.Scene {
     preload() {}
 
     create() {
+        // Sauvegarde
         const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
 
-
+        niveauActuel = "Jeu2"
 
         // Tilemap
         const maCarte = this.make.tilemap({
@@ -49,10 +50,7 @@ class Jeu2 extends Phaser.Scene {
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
         this.dashCount = 2;
-
-        if (sauvegarde) {
-            this.player.hp = sauvegarde.vies
-        }
+        this.player.hp = (sauvegarde) ? sauvegarde.vies : 3;
 
         // Animations
         this.isFalling = false;
@@ -212,6 +210,7 @@ class Jeu2 extends Phaser.Scene {
     }
 
     update() {
+        this.vie();
         this.handleMovement();
         this.handleItems();
         this.handleDeath();

@@ -275,9 +275,20 @@ class Jeu extends Phaser.Scene {
                     this.heartbeatSound.stop();
                     this.dashItemSound.play()
                 } else {
-                    this.coeur.destroy();
                     this.denySound.play();
-
+                    this.tweens.add({
+                        targets: this.coeur,
+                        alpha: {
+                            from: 0,
+                            to: 0.5
+                        },
+                        repeat: 1,
+                        yoyo: true,
+                        duration: 500,
+                        onComplete: () => {
+                            this.coeur.setAlpha(1);
+                        }
+                    })
                 }
             }
         );
@@ -353,7 +364,8 @@ class Jeu extends Phaser.Scene {
             this.player.hp--;
             this.dash();
             this.dashSound.stop();
-            this.player.setPosition(50, 100);
+            this.player.setVelocity(0)
+            this.player.setPosition(50, 200);
             this.vie();
         }
     }

@@ -139,10 +139,13 @@ class Jeu extends Phaser.Scene {
 
         this.physics.add.collider(this.player, goalLayer, () => {
             this.doorSound.play();
-            this.sauvegarde();
             this.scene.start("Jeu2");
             this.heartbeatSound.stop();
-            this.jeuMusic1.stop()
+            this.jeuMusic1.stop();
+            const sauvegarde = {
+                vies: this.player.hp
+            };
+            localStorage.setItem('sauvegardeJeu', JSON.stringify(sauvegarde));
         });
 
         // Touches
@@ -433,10 +436,7 @@ class Jeu extends Phaser.Scene {
     }
 
     sauvegarde() {
-        const sauvegarde = {
-            vies: this.player.hp
-        };
-        localStorage.setItem('sauvegardeJeu', JSON.stringify(sauvegarde));
+
     }
 
 }

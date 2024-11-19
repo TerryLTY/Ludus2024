@@ -10,6 +10,8 @@ class Jeu2 extends Phaser.Scene {
     create() {
         const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
 
+
+
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -44,10 +46,13 @@ class Jeu2 extends Phaser.Scene {
             .setSize(16, 16)
             .setOffset(9, 16);
         this.player.body.setGravityY(1000);
-        this.player.hp = sauvegarde.vies;
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
         this.dashCount = 2;
+
+        if (sauvegarde) {
+            this.player.hp = sauvegarde.vies
+        }
 
         // Animations
         this.isFalling = false;

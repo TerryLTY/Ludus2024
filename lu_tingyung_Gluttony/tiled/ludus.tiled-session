@@ -8,12 +8,16 @@
         "."
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.75
+        },
         "map_02.tmx": {
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 281.5,
-                "y": 335.5
+                "x": 1233,
+                "y": 807
             }
         },
         "map_02.tmx#01 background": {
@@ -36,17 +40,25 @@
             "scaleInDock": 1
         },
         "map_02.tmx#main_lev_build": {
-            "scaleInDock": 1
+            "scaleInDock": 0.25
         },
         "map_02.tmx#other_and_decorative": {
             "scaleInDock": 0.33
         },
+        "map_03.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1804.5454545454543,
+                "y": 1137.878787878788
+            }
+        },
         "untitled.tmx": {
             "scale": 0.75,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 450,
-                "y": 560.6666666666666
+                "x": 640,
+                "y": 359.99999999999994
             }
         },
         "untitled.tmx#01 background": {
@@ -68,12 +80,12 @@
     },
     "last.exportedFilePath": "D:/Github/Ludus2024/lu_tingyung_Gluttony/assets/images/tiled_images",
     "last.imagePath": "D:/Github/Ludus2024/lu_tingyung_Gluttony/tiled",
-    "map.height": 90,
+    "map.height": 45,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 160,
+    "map.width": 80,
     "openFiles": [
         "untitled.tmx",
         "map_02.tmx"
@@ -82,7 +94,8 @@
     "property.type": "bool",
     "recentFiles": [
         "untitled.tmx",
-        "map_02.tmx"
+        "map_02.tmx",
+        "map_03.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {

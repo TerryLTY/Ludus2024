@@ -5,7 +5,12 @@ class Jeu2 extends Phaser.Scene {
         });
     }
 
-    preload() {}
+    preload() {
+        this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
+        this.load.tilemapTiledJSON("carte2_json", "./assets/images/tiled_images/carte2.json");
+        this.load.image("background01", "./assets/images/tiled_images/01 background.png");
+        this.load.image("otherAndDecorative", "./assets/images/tiled_images/other_and_decorative.png");
+    }
 
     create() {
         // Sauvegarde
@@ -14,18 +19,22 @@ class Jeu2 extends Phaser.Scene {
         niveauActuel = "Jeu2"
 
         // Tilemap
-        const maCarte = this.make.tilemap({
-            key: "carte1_json"
+        const maCarte2 = this.make.tilemap({
+            key: "carte2_json"
         });
 
         // Tileset
-        const tilesetMainLevBuild = maCarte.addTilesetImage("main_lev_build", "mainLevBuild");
+        const tilesetMainLevBuild = maCarte2.addTilesetImage("main_lev_build", "mainLevBuild");
+        const background01 = maCarte2.addTilesetImage("01 background", "background01");
+        const background02 = maCarte2.addTilesetImage("other_and_decorative", "otherAndDecorative");
 
         // Calques
-        const bgLayer = maCarte.createLayer("fond", [tilesetMainLevBuild], 0, 0);
-        const collisionLayer = maCarte.createLayer("sol", [tilesetMainLevBuild], 0, 0);
-        const collisionLayer2 = maCarte.createLayer("sol2", [tilesetMainLevBuild], 0, 0);
-        const goalLayer = maCarte.createLayer("objectif", [tilesetMainLevBuild], 0, 0);
+        const bgLayer = maCarte2.createLayer("fond", [background01], 0, 0);
+        const bgLayer3 = maCarte2.createLayer("fond3", [tilesetMainLevBuild], 0, 0);
+        const bgLayer2 = maCarte2.createLayer("fond2", [background02], 0, 0);
+        const collisionLayer = maCarte2.createLayer("sol", [tilesetMainLevBuild], 0, 0);
+        const collisionLayer2 = maCarte2.createLayer("sol2", [tilesetMainLevBuild], 0, 0);
+        const goalLayer = maCarte2.createLayer("objectif", [tilesetMainLevBuild], 0, 0);
 
         collisionLayer.setCollisionByProperty({
             collision: true
@@ -41,7 +50,7 @@ class Jeu2 extends Phaser.Scene {
 
 
         // Joueur
-        this.player = this.physics.add.sprite(50, 250, "player");
+        this.player = this.physics.add.sprite(50, 1000, "player");
         this.player
             .setScale(1)
             .setSize(16, 16)

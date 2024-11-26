@@ -52,9 +52,8 @@ class Jeu2 extends Phaser.Scene {
         // Joueur
         this.player = this.physics.add.sprite(300, 1200, "player");
         this.player
-            .setScale(1)
-            .setSize(16, 16)
-            .setOffset(9, 16);
+            .setSize(16, 32)
+            .setOffset(5, 0);
         this.player.body.setGravityY(1000);
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
@@ -102,7 +101,19 @@ class Jeu2 extends Phaser.Scene {
             this.jumpKeyReleased = true;
         });
 
-        this.physics.add.collider(this.player, collisionLayer2);
+        this.physics.add.collider(this.player, collisionLayer2, () => {
+            if (this.dash_left_up) {
+                this.dash_left_up.stop();
+            } else if (this.dash_right_up) {
+                this.dash_right_up.stop();
+            } else if (this.dash_up) {
+                this.dash_up.stop();
+            } else if (this.dash_left) {
+                this.dash_left.stop();
+            } else if (this.dash_right) {
+                this.dash_right.stop();
+            }
+        });
 
         this.physics.add.collider(this.player, goalLayer, () => {
             this.doorSound.play();
@@ -179,14 +190,8 @@ class Jeu2 extends Phaser.Scene {
     }
 
     handleMovement() {
-        const walkSpeed = 125;
-        const runSpeed = 225;
+        const walkSpeed = 200;
         let velocity = walkSpeed;
-
-        // Run
-        if (this.keys.shift.isDown) {
-            velocity = runSpeed;
-        }
 
         // Déplacements
         if (this.keys.left.isDown) {

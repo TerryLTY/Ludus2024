@@ -6,7 +6,10 @@ const config = {
   scene: [Loading, Accueil, Jeu, Jeu2, CommentJouer, Credits, PartieTerminee, Victoire],
   pixelArt: true,
   physics: {
-    default: "arcade"
+    default: "arcade",
+    arcade: {
+      debug: false
+    }
   }
 };
 const game = new Phaser.Game(config);

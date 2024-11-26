@@ -43,9 +43,8 @@ class Jeu extends Phaser.Scene {
         // Joueur
         this.player = this.physics.add.sprite(50, 250, "player");
         this.player
-            .setScale(1)
-            .setSize(16, 16)
-            .setOffset(9, 16);
+            .setSize(16, 32)
+            .setOffset(5, 0);
         this.player.body.setGravityY(1000);
         this.player.hp = 3;
 
@@ -93,7 +92,19 @@ class Jeu extends Phaser.Scene {
             this.jumpKeyReleased = true;
         });
 
-        this.physics.add.collider(this.player, collisionLayer2);
+        this.physics.add.collider(this.player, collisionLayer2, () => {
+            if (this.dash_left_up) {
+                this.dash_left_up.stop();
+            } else if (this.dash_right_up) {
+                this.dash_right_up.stop();
+            } else if (this.dash_up) {
+                this.dash_up.stop();
+            } else if (this.dash_left) {
+                this.dash_left.stop();
+            } else if (this.dash_right) {
+                this.dash_right.stop();
+            }
+        });
 
         this.physics.add.collider(this.player, goalLayer, () => {
             // Sauvegarde le jeu à l'objectif
@@ -176,14 +187,8 @@ class Jeu extends Phaser.Scene {
     }
 
     handleMovement() {
-        const walkSpeed = 125;
-        const runSpeed = 225;
+        const walkSpeed = 200;
         let velocity = walkSpeed;
-
-        // Run
-        if (this.keys.shift.isDown) {
-            velocity = runSpeed;
-        }
 
         // Déplacements
         if (this.keys.left.isDown) {
@@ -214,7 +219,7 @@ class Jeu extends Phaser.Scene {
         // Dash
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.left.isDown && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_left_up = this.tweens.add({
                     targets: this.player,
                     x: this.player.x - 80,
                     y: this.player.y - 80,
@@ -223,7 +228,7 @@ class Jeu extends Phaser.Scene {
                 this.dash()
                 this.player.setVelocityY(-100);
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.right.isDown & this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_right_up = this.tweens.add({
                     targets: this.player,
                     x: this.player.x + 80,
                     y: this.player.y - 80,
@@ -232,7 +237,7 @@ class Jeu extends Phaser.Scene {
                 this.dash()
                 this.player.setVelocityY(-100);
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_up = this.tweens.add({
                     targets: this.player,
                     y: this.player.y - 80,
                     duration: 100
@@ -240,14 +245,14 @@ class Jeu extends Phaser.Scene {
                 this.dash()
                 this.player.setVelocityY(-100)
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_left = this.tweens.add({
                     targets: this.player,
                     x: this.player.x - 80,
                     duration: 100
                 })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_right = this.tweens.add({
                     targets: this.player,
                     x: this.player.x + 80,
                     duration: 100

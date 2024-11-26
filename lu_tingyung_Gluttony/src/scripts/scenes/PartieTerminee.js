@@ -23,9 +23,15 @@ class PartieTerminee extends Phaser.Scene {
         this.recommencer.setInteractive();
         this.recommencer.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
-                this.scene.start("Jeu");
+                if (niveauActuel == "Jeu2") {
+                this.scene.start("Jeu2");
                 this.buttonSound.play();
                 this.deathSound.stop()
+                } else {
+                    this.scene.start("Jeu");
+                    this.buttonSound.play();
+                    this.deathSound.stop()   
+                }
             }
         });
         this.recommencer.on("pointerover", () => {

@@ -13,11 +13,11 @@
             "scaleInEditor": 0.75
         },
         "map_02.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 3,
+            "scale": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1233,
-                "y": 807
+                "x": 282.75,
+                "y": 223.75
             }
         },
         "map_02.tmx#01 background": {
@@ -40,7 +40,7 @@
             "scaleInDock": 1
         },
         "map_02.tmx#main_lev_build": {
-            "scaleInDock": 0.25
+            "scaleInDock": 0.75
         },
         "map_02.tmx#other_and_decorative": {
             "scaleInDock": 0.33

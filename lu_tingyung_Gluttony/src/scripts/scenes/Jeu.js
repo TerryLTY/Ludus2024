@@ -12,6 +12,8 @@ class Jeu extends Phaser.Scene {
 
         niveauActuel = "Jeu"
 
+        this.physics.world.TILE_BIAS = 18;
+
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -49,7 +51,6 @@ class Jeu extends Phaser.Scene {
         this.player.hp = 3;
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
-        this.dashCount = 2;
 
         // Animations
         this.isFalling = false;

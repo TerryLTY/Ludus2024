@@ -18,6 +18,8 @@ class Jeu2 extends Phaser.Scene {
 
         niveauActuel = "Jeu2"
 
+        this.physics.world.TILE_BIAS = 18;
+
         // Tilemap
         const maCarte2 = this.make.tilemap({
             key: "carte2_json"
@@ -50,7 +52,7 @@ class Jeu2 extends Phaser.Scene {
 
 
         // Joueur
-        this.player = this.physics.add.sprite(50, 1000, "player");
+        this.player = this.physics.add.sprite(300, 1200, "player");
         this.player
             .setScale(1)
             .setSize(16, 16)
@@ -58,7 +60,6 @@ class Jeu2 extends Phaser.Scene {
         this.player.body.setGravityY(1000);
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
-        this.dashCount = 2;
         this.player.hp = (sauvegarde) ? sauvegarde.vies : 3;
 
         // Animations
@@ -94,7 +95,7 @@ class Jeu2 extends Phaser.Scene {
         });
 
         // Item
-        this.item = this.physics.add.image(675, 550, "item").setScale(2);
+        this.item = this.physics.add.image(2380, 350, "item").setScale(2);
         this.coeur = this.physics.add.image(950, 625, "coeur").setScale(0.04);
 
         // Collision
@@ -125,8 +126,8 @@ class Jeu2 extends Phaser.Scene {
         this.cameras.main.setBounds(
             0,
             0,
-            config.width,
-            config.height
+            config.width * 2,
+            config.height * 2
         );
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.setZoom(1.75);
@@ -239,7 +240,7 @@ class Jeu2 extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,
-                    y: this.player.y - 80,
+                    y: this.player.y - 100,
                     duration: 100
                 })
                 this.dash()
@@ -247,14 +248,14 @@ class Jeu2 extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,
-                    x: this.player.x - 80,
+                    x: this.player.x - 100,
                     duration: 100
                 })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
                 this.tweens.add({
                     targets: this.player,
-                    x: this.player.x + 80,
+                    x: this.player.x + 100,
                     duration: 100
                 })
                 this.dash()
@@ -360,17 +361,17 @@ class Jeu2 extends Phaser.Scene {
 
     handleDeath() {
         // Tombe dans le vide
-        if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
+        if (this.player.y > (config.height * 2) + this.player.height && this.player.hp == 1) {
             this.scene.start("PartieTerminee");
             this.heartbeatSound.stop();
             this.jeuMusic1.stop()
-        } else if (this.player.y > config.height + this.player.height) {
+        } else if (this.player.y > (config.height * 2) + this.player.height) {
             this.criSound.play();
             this.player.hp--;
             this.dash();
             this.dashSound.stop();
             this.player.setVelocity(0)
-            this.player.setPosition(50, 200);
+            this.player.setPosition(300, 1200);
             this.vie();
         }
     }

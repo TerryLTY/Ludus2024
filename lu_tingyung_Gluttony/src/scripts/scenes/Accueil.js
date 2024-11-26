@@ -5,23 +5,27 @@ class Accueil extends Phaser.Scene {
         });
     }
 
-    preload() { }
+    preload() {}
 
     create() {
         niveauActuel = "jeu"
 
-        this.bgAccueil = this.add.image(0, 0, "bgAccueil").setOrigin(0, 0);
-        this.bgAccueil.setPosition(-525, -250);
+        this.bgAccueil = this.add.image(0, 0, "bgAccueil")
+            .setOrigin(0, 0)
+            .setPosition(-525, -250);
 
-        this.logo = this.add.image(188, 80, "logo").setOrigin(0, 0);
-        this.logo.setPosition(465, 150);
+        this.logo = this.add.image(188, 80, "logo")
+            .setOrigin(0.5, 0.5)
+            .setPosition(650, 220)
         this.logo.postFX.addShadow(0.8, 1.3, 0.1, 1.5, 0x000000, 2, 2)
 
-
-        this.sons = this.add.image(0, 0, "sons").setOrigin(0, 0);
-        this.sons.setPosition(1125, 25);
-        this.sons.setInteractive();
+        // Boutons
+        this.sons = this.add.image(0, 0, "sons")
+            .setOrigin(0.5, 0.5)
+            .setPosition(1180, 50)
+            .setInteractive();
         this.sons.on("pointerdown", (pointer) => {
+            // fermer sons et le mettre en gris
             if (pointer.leftButtonDown()) {
                 if (!game.sound.mute) {
                     game.sound.mute = true;
@@ -32,88 +36,39 @@ class Accueil extends Phaser.Scene {
                 }
             }
         });
-        this.sons.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.sons,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.sons.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.sons,
-                scale: 1,
-                duration: 100
+        this.boutonHover(this.sons)
+
+        this.commencer = this.add.image(0, 0, "commencer")
+            .setOrigin(0.5, 0.5)
+            .setPosition(650, 350)
+            .setInteractive();
+        this.boutonHover(this.commencer)
+
+        this.commencer.once("pointerdown", () => {
+            this.accueilMusic.stop();
+            const fx = this.cameras.main.postFX.addWipe();
+            this.scene.transition({
+                target: "Jeu",
+                duration: 1000,
+                moveBelow: true,
+                onUpdate: (progress) => {
+                    fx.progress = progress;
+                }
             });
         });
 
-        this.commencer = this.add.image(0, 0, "commencer").setOrigin(0, 0);
-        this.commencer.setPosition(535, 300);
-        this.commencer.setInteractive();
-        this.commencer.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.commencer,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.commencer.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.commencer,
-                scale: 1,
-                duration: 100
-            });
-        });
+        this.credits = this.add.image(0, 0, "credits")
+            .setOrigin(0.5, 0.5)
+            .setPosition(150, 650)
+            .setInteractive();
+        this.boutonScene(this.credits, "Credits")
 
-        this.credits = this.add.image(0, 0, "credits").setOrigin(0, 0);
-        this.credits.setPosition(50, 600);
-        this.credits.setInteractive();
-        this.credits.on("pointerdown", (pointer) => {
-            if (pointer.leftButtonDown()) {
-                this.scene.start("Credits");
-                this.buttonSound.play();
-                this.accueilMusic.stop();
-            }
-        });
-        this.credits.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.credits,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.credits.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.credits,
-                scale: 1,
-                duration: 100
-            });
-        });
+        this.commentJouer = this.add.image(0, 0, "commentJouer")
+            .setOrigin(0.5, 0.5)
+            .setPosition(1070, 650)
+            .setInteractive();
+        this.boutonScene(this.commentJouer, "CommentJouer")
 
-        this.commentJouer = this.add.image(0, 0, "commentJouer").setOrigin(0, 0);
-        this.commentJouer.setPosition(890, 600);
-        this.commentJouer.setInteractive();
-        this.commentJouer.on("pointerdown", (pointer) => {
-            if (pointer.leftButtonDown()) {
-                this.scene.start("CommentJouer");
-                this.buttonSound.play();
-                this.accueilMusic.stop();
-            }
-        });
-        this.commentJouer.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.commentJouer,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.commentJouer.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.commentJouer,
-                scale: 1,
-                duration: 100
-            });
-        });
 
         // Sons
         this.buttonSound = this.sound.add("buttonSound", {
@@ -134,20 +89,49 @@ class Accueil extends Phaser.Scene {
             repeat: -1,
             yoyo: true
         });
+    }
 
-        this.commencer.once("pointerdown", () => {
-            this.accueilMusic.stop();
-            const fx = this.cameras.main.postFX.addWipe();
-            this.scene.transition({
-                target: "Jeu",
-                duration: 1000,
-                moveBelow: true,
-                onUpdate: (progress) => {
-                    fx.progress = progress;
-                }
+    update() {}
+
+    boutonScene(bouton, scene) {
+        bouton.on("pointerdown", (pointer) => {
+            if (pointer.leftButtonDown()) {
+                this.scene.start(scene);
+                this.buttonSound.play();
+                this.accueilMusic.stop();
+            }
+        });
+
+        bouton.on("pointerover", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        bouton.on("pointerout", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1,
+                duration: 100
             });
         });
     }
 
-    update() { }
+    boutonHover(bouton) {
+        bouton.on("pointerover", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        bouton.on("pointerout", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1,
+                duration: 100
+            });
+        });
+    }
 }

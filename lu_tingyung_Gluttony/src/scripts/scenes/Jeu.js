@@ -8,6 +8,7 @@ class Jeu extends Phaser.Scene {
     preload() {}
 
     create() {
+        // Créer sauvegarde
         const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
 
         niveauActuel = "Jeu"
@@ -31,11 +32,9 @@ class Jeu extends Phaser.Scene {
         collisionLayer.setCollisionByProperty({
             collision: true
         });
-
         collisionLayer2.setCollisionByProperty({
             collision: true
         });
-
         goalLayer.setCollisionByProperty({
             collision: true
         });
@@ -49,10 +48,10 @@ class Jeu extends Phaser.Scene {
             .setOffset(9, 16);
         this.player.body.setGravityY(1000);
         this.player.hp = 3;
+
         this.jumpCount = 0;
         this.jumpKeyReleased = true;
 
-        // Animations
         this.isFalling = false;
         this.isJumping = false;
 
@@ -86,7 +85,7 @@ class Jeu extends Phaser.Scene {
 
         // Item
         this.item = this.physics.add.image(675, 550, "item").setScale(2);
-        this.coeur = this.physics.add.image(950, 625, "coeur").setScale(0.04);
+        this.coeur = this.physics.add.image(950, 625, "coeur");
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {
@@ -97,6 +96,7 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2);
 
         this.physics.add.collider(this.player, goalLayer, () => {
+            // Sauvegarde le jeu à l'objectif
             const sauvegarde = {
                 vies: this.player.hp
             };
@@ -106,7 +106,7 @@ class Jeu extends Phaser.Scene {
             this.scene.start("Jeu2");
             this.heartbeatSound.stop();
             this.jeuMusic1.stop();
-            
+
         });
 
         // Touches
@@ -129,9 +129,12 @@ class Jeu extends Phaser.Scene {
         this.cameras.main.setZoom(1.75);
 
         // Bouton
-        this.quitter = this.add.image(0, 0, "quitter").setOrigin(0, 0).setScrollFactor(0).setScale(0.3);
-        this.quitter.setPosition(945, 535);
-        this.quitter.setInteractive();
+        this.quitter = this.add.image(0, 0, "quitter")
+            .setOrigin(0.5, 0.5)
+            .setScrollFactor(0)
+            .setScale(0.3)
+            .setInteractive()
+            .setPosition(970, 545);
         this.quitter.on("pointerdown", (pointer) => {
             if (pointer.leftButtonDown()) {
                 this.scene.start("Accueil");
@@ -140,33 +143,29 @@ class Jeu extends Phaser.Scene {
                 this.jeuMusic1.stop();
             }
         });
-        this.quitter.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.quitter,
-                scale: 0.32,
-                duration: 100
-            });
-        });
-        this.quitter.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.quitter,
-                scale: 0.3,
-                duration: 100
-            });
-        });
+        this.boutonHover(this.quitter)
 
         // Vies
-        this.vie1 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
-        this.vie1.setPosition(295, 175);
-        this.vie1.setInteractive();
+        this.vie1 = this.add.image(0, 0, "coeur")
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(0.8)
+            .setInteractive()
+            .setPosition(305, 175);
 
-        this.vie2 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
-        this.vie2.setPosition(330, 175);
-        this.vie2.setInteractive();
+        this.vie2 = this.add.image(0, 0, "coeur")
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(0.8)
+            .setInteractive()
+            .setPosition(340, 175);
 
-        this.vie3 = this.add.image(0, 0, "coeur").setOrigin(0, 0).setScrollFactor(0).setScale(0.05);
-        this.vie3.setPosition(365, 175);
-        this.vie3.setInteractive();
+        this.vie3 = this.add.image(0, 0, "coeur")
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(0.8)
+            .setInteractive()
+            .setPosition(375, 175);
     }
 
     update() {
@@ -299,6 +298,7 @@ class Jeu extends Phaser.Scene {
             this.player,
             this.item,
             () => {
+                // Restaure dash
                 if (this.item.alpha == 1) {
                     this.dashItemSound.play()
                     this.player.setAlpha(1);
@@ -319,10 +319,7 @@ class Jeu extends Phaser.Scene {
                     if (this.flashTween) {
                         this.flashTween.stop()
                     }
-                } else {
-
                 }
-
             }
         );
 
@@ -335,6 +332,7 @@ class Jeu extends Phaser.Scene {
     }
 
     dash() {
+        // Change couleur durant dash
         this.dashSound.play();
         this.player.setTint(0x7fdcff);
         this.player.setAlpha(0.8)
@@ -355,23 +353,25 @@ class Jeu extends Phaser.Scene {
     }
 
     handleDeath() {
-        // Tombe dans le vide
-        if (this.player.y > config.height + this.player.height && this.player.hp == 1) {
+        // Tombe dans le vide - Game Over
+        if (this.player.y > (config.height) + this.player.height && this.player.hp == 1) {
             this.scene.start("PartieTerminee");
             this.heartbeatSound.stop();
             this.jeuMusic1.stop()
-        } else if (this.player.y > config.height + this.player.height) {
+            // Tombe dans le vide - respawn
+        } else if (this.player.y > (config.height) + this.player.height) {
             this.criSound.play();
             this.player.hp--;
             this.dash();
             this.dashSound.stop();
             this.player.setVelocity(0)
-            this.player.setPosition(50, 200);
+            this.player.setPosition(50, 250);
             this.vie();
         }
     }
 
     vie() {
+        // HUD perdre vie
         if (this.player.hp == 2) {
             this.vie3.setAlpha(0)
         } else if (this.player.hp == 1) {
@@ -401,4 +401,24 @@ class Jeu extends Phaser.Scene {
         }
     }
 
+    boutonHover(bouton) {
+        bouton.on("pointerover", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 0.32,
+                duration: 100
+            });
+        });
+        bouton.on("pointerout", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 0.3,
+                duration: 100
+            });
+        });
+    }
+
+    creerCoeur() {
+
+    }
 }

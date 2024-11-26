@@ -13,29 +13,11 @@ class CommentJouer extends Phaser.Scene {
 
         this.tutoriel = this.add.image(0, 0, "tutoriel").setOrigin(0, 0);
 
-        this.retour = this.add.image(0, 0, "retour").setOrigin(0, 0);
-        this.retour.setPosition(1050, 600);
-        this.retour.setInteractive();
-        this.retour.on("pointerdown", (pointer) => {
-            if (pointer.leftButtonDown()) {
-                this.scene.start("Accueil");
-                this.buttonSound.play();
-            }
-        });
-        this.retour.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.retour,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.retour.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.retour,
-                scale: 1,
-                duration: 100
-            });
-        });
+        this.retour = this.add.image(0, 0, "retour")
+            .setOrigin(0.5, 0.5)
+            .setPosition(1150, 650)
+            .setInteractive();
+        this.boutonScene(this.retour, "Accueil")
 
         // Sons
         this.buttonSound = this.sound.add("buttonSound", {
@@ -44,4 +26,29 @@ class CommentJouer extends Phaser.Scene {
     }
 
     update() {}
+
+    boutonScene(bouton, scene) {
+        bouton.on("pointerdown", (pointer) => {
+            if (pointer.leftButtonDown()) {
+                this.scene.start(scene);
+                this.buttonSound.play();
+                this.accueilMusic.stop();
+            }
+        });
+
+        bouton.on("pointerover", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        bouton.on("pointerout", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1,
+                duration: 100
+            });
+        });
+    }
 }

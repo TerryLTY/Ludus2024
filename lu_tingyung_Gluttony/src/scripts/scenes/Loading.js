@@ -9,21 +9,21 @@ class Loading extends Phaser.Scene {
         //                               MENU
 
         // Menu
-        this.load.image("logo", "./assets/images/ui/Gluttony.png");
+        this.load.image("logo", "./assets/images/ui/gluttony.png");
         this.load.image("bgAccueil", "./assets/images/backgrounds/bg_accueil.png");
-        this.load.image("faitPar", "./assets/images/ui/Fait par.png");
-        this.load.image("menuPrincipal", "./assets/images/ui/Menu principal.png");
-        this.load.image("RIP", "./assets/images/ui/Vous êtes mort.png");
-        this.load.image("recommencer", "./assets/images/ui/Recommencer.png");
-        this.load.image("felicitations", "./assets/images/ui/Felicitations.png");
+        this.load.image("faitPar", "./assets/images/ui/fait_par.png");
+        this.load.image("menuPrincipal", "./assets/images/ui/menu_principal.png");
+        this.load.image("RIP", "./assets/images/ui/vous_etes_mort.png");
+        this.load.image("recommencer", "./assets/images/ui/recommencer.png");
+        this.load.image("felicitations", "./assets/images/ui/felicitations.png");
 
         // Boutons
-        this.load.image("commencer", "./assets/images/ui/Commencer.png");
-        this.load.image("credits", "./assets/images/ui/Credits.png");
-        this.load.image("commentJouer", "./assets/images/ui/Comment jouer.png");
-        this.load.image("sons", "./assets/images/ui/Sons.png");
-        this.load.image("tutoriel", "./assets/images/ui/Tutoriel.png");
-        this.load.image("retour", "./assets/images/ui/Retour.png");
+        this.load.image("commencer", "./assets/images/ui/commencer.png");
+        this.load.image("credits", "./assets/images/ui/credits.png");
+        this.load.image("commentJouer", "./assets/images/ui/comment_jouer.png");
+        this.load.image("sons", "./assets/images/ui/sons.png");
+        this.load.image("tutoriel", "./assets/images/ui/tutoriel.png");
+        this.load.image("retour", "./assets/images/ui/retour.png");
 
         // Sons
         this.load.audio('buttonSound', './assets/audio/sfx/button-click.mp3');
@@ -42,11 +42,11 @@ class Loading extends Phaser.Scene {
         this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
 
         this.load.tilemapTiledJSON("carte2_json", "./assets/images/tiled_images/carte2.json");
-        this.load.image("background01", "./assets/images/tiled_images/01 background.png");
+        this.load.image("background01", "./assets/images/tiled_images/01_background.png");
         this.load.image("otherAndDecorative", "./assets/images/tiled_images/other_and_decorative.png");
 
         // Boutons
-        this.load.image("quitter", "./assets/images/ui/Quitter.png");
+        this.load.image("quitter", "./assets/images/ui/quitter.png");
 
         // Items
         this.load.image("item", "./assets/images/items/item_dash.png");
@@ -75,8 +75,9 @@ class Loading extends Phaser.Scene {
     }
 
     create() {
-        this.logo = this.add.image(188, 80, "logo").setOrigin(0, 0);
-        this.logo.setPosition(465, 150);
+        this.logo = this.add.image(188, 80, "logo")
+            .setOrigin(0.5, 0.5)
+            .setPosition(650, 220);
 
         this.tweens.add({
             targets: this.logo,
@@ -89,53 +90,24 @@ class Loading extends Phaser.Scene {
         })
 
         // Animations
-        
+        this.createAnimation("idle", "player", 12, 16);
+        this.createAnimation("walk", "player", 23, 29);
+        this.createAnimation("jump", "player", 18, 19);
+        this.createAnimation("fall", "player", 20, 22);
+        this.createAnimation("die", "player", 8, 11);
+    }
+
+    update() {}
+
+    createAnimation(key, spritesheet, firstFrame, lastFrame) {
         this.anims.create({
-            key: "idle",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 12,
-                end: 16
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "walk",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 23,
-                end: 29
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "jump",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 18,
-                end: 19
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "fall",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 20,
-                end: 22
-            }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "die",
-            frames: this.anims.generateFrameNumbers("player", {
-                start: 8,
-                end: 11
+            key: key,
+            frames: this.anims.generateFrameNumbers(spritesheet, {
+                start: firstFrame,
+                end: lastFrame
             }),
             frameRate: 10,
             repeat: -1
         });
     }
-
-    update() {}
 }

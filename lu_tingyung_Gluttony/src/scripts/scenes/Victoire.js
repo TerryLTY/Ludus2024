@@ -8,10 +8,12 @@ class Victoire extends Phaser.Scene {
     preload() {}
 
     create() {
-        this.felicitations = this.add.image(0, 0, "felicitations").setOrigin(0, 0);
-        this.felicitations.setPosition(350, 200);
-        this.felicitations.setAlpha(0.6);
+        this.felicitations = this.add.image(0, 0, "felicitations")
+            .setOrigin(0.5, 0.5)
+            .setPosition(650, 250)
+            .setAlpha(0.6);
 
+        // Animation felicitations
         this.tweens.add({
             targets: this.felicitations,
             alpha: 1,
@@ -29,30 +31,10 @@ class Victoire extends Phaser.Scene {
         });
 
 
-        this.menuPrincipal = this.add.image(0, 0, "menuPrincipal").setOrigin(0, 0);
-        this.menuPrincipal.setPosition(910, 590);
-        this.menuPrincipal.setInteractive();
-        this.menuPrincipal.on("pointerdown", (pointer) => {
-            if (pointer.leftButtonDown()) {
-                this.scene.start("Accueil");
-                this.buttonSound.play();
-                this.winSound.stop()
-            }
-        });
-        this.menuPrincipal.on("pointerover", () => {
-            this.tweens.add({
-                targets: this.menuPrincipal,
-                scale: 1.1,
-                duration: 100
-            });
-        });
-        this.menuPrincipal.on("pointerout", () => {
-            this.tweens.add({
-                targets: this.menuPrincipal,
-                scale: 1,
-                duration: 100
-            });
-        });
+        this.menuPrincipal = this.add.image(0, 0, "menuPrincipal").setOrigin(0.5, 0.5)
+            .setPosition(1070, 650)
+            .setInteractive();
+        this.boutonScene(this.menuPrincipal, "Accueil")
 
 
         // Sons
@@ -66,4 +48,29 @@ class Victoire extends Phaser.Scene {
     }
 
     update() {}
+
+    boutonScene(bouton, scene) {
+        bouton.on("pointerdown", (pointer) => {
+            if (pointer.leftButtonDown()) {
+                this.scene.start(scene);
+                this.buttonSound.play();
+                this.accueilMusic.stop();
+            }
+        });
+
+        bouton.on("pointerover", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1.1,
+                duration: 100
+            });
+        });
+        bouton.on("pointerout", () => {
+            this.tweens.add({
+                targets: bouton,
+                scale: 1,
+                duration: 100
+            });
+        });
+    }
 }

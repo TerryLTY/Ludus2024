@@ -3,6 +3,11 @@
     src: url(../assets/fonts/kirby-classic.ttf) format(truetype);
 }
 
+@font-face {
+    font-family: Seurat;
+    src: url(../assets/fonts/FOT-Seurat\ Pro\ EB.otf) format(opentype);
+}
+
 body {
     margin: 0;
     color: black;
@@ -35,12 +40,28 @@ body {
     display: flex;
     justify-content: center;
     height: 100vh;
+    background-image: url(../assets/images/fond.jpg);
+    background-size: cover;
 }
 
+.section3, .section4, .section5 {
+    background-size: cover;
+    background-position: 20%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
 
-.question {
-    font-size: 3em;
-    font-family: "Kirby";
+.section3 {
+    background-image: url(../assets/images/espace.jpeg);
+}
+
+.section4 {
+    background-image: url(../assets/images/fond.jpg);
+}
+
+.section5 {
+    background-color: black;
 }
 
 .container {
@@ -48,12 +69,23 @@ body {
     height: auto;
 }
 
+.question {
+    font-size: 3em;
+    font-family: "Seurat";
+    width: 100vw;
+    height: 30vh;
+    margin-bottom: 20%;
+}
+
 .reponse-contenant {
-    background-color: bisque;
     width: 60vw;
     height: 30vh;
     position: absolute;
     top: 20vw;
+}
+
+.reponse-contenant2 {
+    height: 30vh;
 }
 
 .reponse {
@@ -80,12 +112,37 @@ body {
     background-image: url(../assets/images/waddle_dee.webp);
 }
 
+#reponse4 {
+    background-image: url(../assets/images/popstar.webp);
+}
+
+#reponse5 {
+    background-image: url(../assets/images/halberd.webp);
+}
+
+#reponse6 {
+    background-image: url(../assets/images/starcutter.webp);
+}
+
+#reponse7 {
+    background-image: url(../assets/images/masahiro_sakurai.png);
+}
+
+#reponse8 {
+    background-image: url(../assets/images/shigeru_miyamoto.png);
+    background-size: fill;
+}
+
+#reponse9 {
+    background-image: url(../assets/images/barack_obama.png);
+}
+
 .text-reponse {
     height: auto;
     font-family: "Kirby";
     text-align: center;
     position: relative;
-    top: 40%;
+    bottom: 10%;
     font-size: 1.5em;
 }
 
@@ -97,14 +154,14 @@ body {
 }
 
 .kirbyetoile {
-    width: 350px;
+    width: 250px;
     aspect-ratio: 1/1;
     background-image: url(../assets/images/kirby_sur_etoile.png);
     background-size: contain;
     background-repeat: no-repeat;
     margin: auto;
     position: relative;
-    top: 40%;
+    top: 30%;
 }
 
 .kirbyflotte {
@@ -114,13 +171,4 @@ body {
     background-image: url(../assets/images/floating_kirby.png);
     background-size: contain;
     background-repeat: no-repeat;
-}
-
-.section3 {
-    background-image: url(../assets/images/espace.jpeg);
-    background-size: cover;
-    background-position: 20%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
 }

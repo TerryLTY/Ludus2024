@@ -60,6 +60,12 @@ let score = 0;
 let reponse1 = document.getElementById("reponse1");
 let reponse2 = document.getElementById("reponse2");
 let reponse3 = document.getElementById("reponse3");
+let reponse4 = document.getElementById("reponse4");
+let reponse5 = document.getElementById("reponse5");
+let reponse6 = document.getElementById("reponse6");
+let reponse7 = document.getElementById("reponse7");
+let reponse8 = document.getElementById("reponse8");
+let reponse9 = document.getElementById("reponse9");
 
 reponse1.addEventListener('click', function () {
   reponse1.style.backgroundColor = "red";
@@ -79,5 +85,46 @@ reponse3.addEventListener('click', function () {
   reponse2.style.display = "none";
   score++;
 }, { once: true })
+
+reponse4.addEventListener('click', function () {
+  reponse4.style.backgroundColor = "green";
+  reponse5.style.display = "none";
+  reponse6.style.display = "none";
+  score++;
+  console.log(score)
+}, { once: true })
+
+reponse5.addEventListener('click', function () {
+  reponse5.style.backgroundColor = "red";
+  reponse4.style.display = "none";
+  reponse6.style.display = "none"
+}, { once: true })
+
+reponse6.addEventListener('click', function () {
+  reponse6.style.backgroundColor = "red";
+  reponse4.style.display = "none";
+  reponse5.style.display = "none";
+}, { once: true })
+
+reponse7.addEventListener('click', function () {
+  reponse7.style.backgroundColor = "green";
+  reponse8.style.display = "none";
+  reponse9.style.display = "none";
+  score++;
+  console.log(score)
+}, { once: true })
+
+reponse8.addEventListener('click', function () {
+  reponse8.style.backgroundColor = "red";
+  reponse7.style.display = "none";
+  reponse9.style.display = "none"
+}, { once: true })
+
+reponse9.addEventListener('click', function () {
+  reponse9.style.backgroundColor = "red";
+  reponse7.style.display = "none";
+  reponse8.style.display = "none";
+}, { once: true })
+
 
 

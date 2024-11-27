@@ -42,7 +42,7 @@ class Loading extends Phaser.Scene {
         this.load.image("mainLevBuild", "./assets/images/tiled_images/main_lev_build.png");
 
         this.load.tilemapTiledJSON("carte2_json", "./assets/images/tiled_images/carte2.json");
-        this.load.image("background01", "./assets/images/tiled_images/01_background.png");
+        this.load.image("background01", "./assets/images/tiled_images/01 background.png");
         this.load.image("otherAndDecorative", "./assets/images/tiled_images/other_and_decorative.png");
 
         // Boutons

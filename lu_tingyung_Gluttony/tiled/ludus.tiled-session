@@ -13,11 +13,11 @@
             "scaleInEditor": 0.75
         },
         "map_02.tmx": {
-            "scale": 2,
-            "selectedLayer": 1,
+            "scale": 0.5,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 282.75,
-                "y": 223.75
+                "x": 643,
+                "y": 1191
             }
         },
         "map_02.tmx#01 background": {

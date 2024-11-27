@@ -1,0 +1,126 @@
+@font-face {
+    font-family: Kirby;
+    src: url(../assets/fonts/kirby-classic.ttf) format(truetype);
+}
+
+body {
+    margin: 0;
+    color: black;
+    overflow-x: hidden;
+}
+
+#path {
+    position: absolute;
+    fill: transparent;
+    stroke-width: 3px;
+    stroke-dasharray: 5, 5;
+}
+
+.container {
+    position: absolute;
+}
+
+.section1,
+.section4 {
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.section2 {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+
+.question {
+    font-size: 3em;
+    font-family: "Kirby";
+}
+
+.container {
+    width: 100vw;
+    height: auto;
+}
+
+.reponse-contenant {
+    background-color: bisque;
+    width: 60vw;
+    height: 30vh;
+    position: absolute;
+    top: 20vw;
+}
+
+.reponse {
+    background-color: blue;
+    border-radius: 25px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.reponse:hover {
+    transform: scale(1.2);
+}
+
+#reponse1 {
+    background-image: url(../assets/images/waddle_doo.webp);
+}
+
+#reponse2 {
+    background-image: url(../assets/images/kibble.png);
+}
+
+#reponse3 {
+    background-image: url(../assets/images/waddle_dee.webp);
+}
+
+.text-reponse {
+    height: auto;
+    font-family: "Kirby";
+    text-align: center;
+    position: relative;
+    top: 40%;
+    font-size: 1.5em;
+}
+
+.kirbytext,
+.superstartext {
+    font-family: "Kirby";
+    font-size: 10em;
+    text-align: center;
+}
+
+.kirbyetoile {
+    width: 350px;
+    aspect-ratio: 1/1;
+    background-image: url(../assets/images/kirby_sur_etoile.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: auto;
+    position: relative;
+    top: 40%;
+}
+
+.kirbyflotte {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-image: url(../assets/images/floating_kirby.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.section3 {
+    background-image: url(../assets/images/espace.jpeg);
+    background-size: cover;
+    background-position: 20%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}

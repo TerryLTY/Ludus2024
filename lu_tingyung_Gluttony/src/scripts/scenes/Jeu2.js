@@ -18,8 +18,6 @@ class Jeu2 extends Phaser.Scene {
 
         niveauActuel = "Jeu2"
 
-        this.physics.world.TILE_BIAS = 18;
-
         // Tilemap
         const maCarte2 = this.make.tilemap({
             key: "carte2_json"
@@ -104,16 +102,21 @@ class Jeu2 extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2, () => {
             if (this.dash_left_up) {
                 this.dash_left_up.stop();
-            } else if (this.dash_right_up) {
+            } 
+            if (this.dash_right_up) {
                 this.dash_right_up.stop();
-            } else if (this.dash_up) {
+            } 
+            if (this.dash_up) {
                 this.dash_up.stop();
-            } else if (this.dash_left) {
+            } 
+            if (this.dash_left) {
                 this.dash_left.stop();
-            } else if (this.dash_right) {
+            } 
+            if (this.dash_right) {
                 this.dash_right.stop();
             }
         });
+
 
         this.physics.add.collider(this.player, goalLayer, () => {
             this.doorSound.play();
@@ -222,7 +225,7 @@ class Jeu2 extends Phaser.Scene {
         // Dash
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.left.isDown && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_left_up = this.tweens.add({
                     targets: this.player,
                     x: this.player.x - 80,
                     y: this.player.y - 80,
@@ -231,7 +234,7 @@ class Jeu2 extends Phaser.Scene {
                 this.dash()
                 this.player.setVelocityY(-100);
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.keys.right.isDown & this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_right_up = this.tweens.add({
                     targets: this.player,
                     x: this.player.x + 80,
                     y: this.player.y - 80,
@@ -240,29 +243,30 @@ class Jeu2 extends Phaser.Scene {
                 this.dash()
                 this.player.setVelocityY(-100);
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_up = this.tweens.add({
                     targets: this.player,
-                    y: this.player.y - 100,
+                    y: this.player.y - 80,
                     duration: 100
                 })
                 this.dash()
                 this.player.setVelocityY(-100)
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_left = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x - 100,
+                    x: this.player.x - 80,
                     duration: 100
                 })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
-                this.tweens.add({
+                this.dash_right = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x + 100,
+                    x: this.player.x + 80,
                     duration: 100
                 })
                 this.dash()
             }
         })
+        
     }
 
     handleItems() {

@@ -13,8 +13,6 @@ class Jeu extends Phaser.Scene {
 
         niveauActuel = "Jeu"
 
-        this.physics.world.TILE_BIAS = 18;
-
         // Tilemap
         const maCarte = this.make.tilemap({
             key: "carte1_json"
@@ -95,13 +93,17 @@ class Jeu extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2, () => {
             if (this.dash_left_up) {
                 this.dash_left_up.stop();
-            } else if (this.dash_right_up) {
+            } 
+            if (this.dash_right_up) {
                 this.dash_right_up.stop();
-            } else if (this.dash_up) {
+            } 
+            if (this.dash_up) {
                 this.dash_up.stop();
-            } else if (this.dash_left) {
+            } 
+            if (this.dash_left) {
                 this.dash_left.stop();
-            } else if (this.dash_right) {
+            } 
+            if (this.dash_right) {
                 this.dash_right.stop();
             }
         });
@@ -421,9 +423,5 @@ class Jeu extends Phaser.Scene {
                 duration: 100
             });
         });
-    }
-
-    creerCoeur() {
-
     }
 }

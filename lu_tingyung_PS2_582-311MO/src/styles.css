@@ -14,8 +14,12 @@ body {
     overflow-x: hidden;
 }
 
+#path_svg {
+    margin-top: 5%;
+    margin-right: 5%;
+}
+
 #path {
-    position: absolute;
     fill: transparent;
     stroke-width: 3px;
     stroke-dasharray: 5, 5;
@@ -89,11 +93,12 @@ body {
 }
 
 .reponse {
-    background-color: blue;
+    background-color: navy;
     border-radius: 25px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    box-shadow: 0px 0px 8px 10px #00000048
 }
 
 .reponse:hover {
@@ -165,10 +170,34 @@ body {
 }
 
 .kirbyflotte {
-    position: absolute;
     width: 200px;
     height: 200px;
     background-image: url(../assets/images/floating_kirby.png);
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+#circle_svg {
+    margin-top: 8%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50vw;
+    max-height: 40vh;
+}
+
+#etoile {
+    position: absolute;
+    stroke-width: 0;
+    fill: pink;
+}
+
+#circle {
+    position: absolute;
+    display: none;
+}
+
+.pointage {
+    font-family: "Seurat";
+    font-size: 3em;
 }

@@ -16,7 +16,6 @@ gsap.to(".kirbytext", {
     start: "top 0%",
     end: "bottom 70%",
     scrub: true,
-    markers: true
   }
 });
 
@@ -40,20 +39,33 @@ Draggable.create(".kirbyetoile", {
   inertia: true
 });
 
-
-const split = new SplitText(".superstartext", { type: "words,chars" });
+const split = new SplitText(".kirbytext", { type: "words,chars" });
 
 gsap.from(split.chars, {
   duration: 1,
   y: 50,
   opacity: 0,
   stagger: 0.05,
-  delay: 3
+  delay: 0.5
+});
+
+var morph = gsap.to("#etoile", {
+  duration: 1,
+  morphSVG: "#circle",
+  repeat: 1,
+  yoyo: true,
+  repeatDelay: 0.2,
+  scrollTrigger: {
+    trigger: '.section5',
+    start : "top 50%",
+    end: "bottom 40%",
+    scrub: true,
+  }
 });
 
 // Son
-let sonBravo = new Audio("./assets/audio/bravo.mp3")
-//sonBravo.play()
+let sonBravo = new Audio("./assets/audio/bravo.mp3");
+sonBravo.volume = 0.3;
 
 // Boutons 
 let score = 0;
@@ -66,17 +78,21 @@ let reponse6 = document.getElementById("reponse6");
 let reponse7 = document.getElementById("reponse7");
 let reponse8 = document.getElementById("reponse8");
 let reponse9 = document.getElementById("reponse9");
+let points = document.getElementById("pointage");
 
+// Section 2
 reponse1.addEventListener('click', function () {
   reponse1.style.backgroundColor = "red";
   reponse2.style.display = "none";
   reponse3.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
 
 reponse2.addEventListener('click', function () {
   reponse2.style.backgroundColor = "red";
   reponse1.style.display = "none";
-  reponse3.style.display = "none"
+  reponse3.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
 
 reponse3.addEventListener('click', function () {
@@ -84,47 +100,64 @@ reponse3.addEventListener('click', function () {
   reponse1.style.display = "none";
   reponse2.style.display = "none";
   score++;
+  points.innerHTML = score + "/3";
+  if (score == 3) {
+    sonBravo.play()
+  }
 }, { once: true })
 
+// Section 3
 reponse4.addEventListener('click', function () {
   reponse4.style.backgroundColor = "green";
   reponse5.style.display = "none";
   reponse6.style.display = "none";
   score++;
-  console.log(score)
+  points.innerHTML = score + "/3";
+  if (score == 3) {
+    sonBravo.play()
+  }
 }, { once: true })
 
 reponse5.addEventListener('click', function () {
   reponse5.style.backgroundColor = "red";
   reponse4.style.display = "none";
-  reponse6.style.display = "none"
+  reponse6.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
 
 reponse6.addEventListener('click', function () {
   reponse6.style.backgroundColor = "red";
   reponse4.style.display = "none";
   reponse5.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
 
+// Section 4
 reponse7.addEventListener('click', function () {
   reponse7.style.backgroundColor = "green";
   reponse8.style.display = "none";
   reponse9.style.display = "none";
   score++;
-  console.log(score)
+  points.innerHTML = score + "/3";
+  if (score == 3) {
+    sonBravo.play()
+  }
 }, { once: true })
 
 reponse8.addEventListener('click', function () {
   reponse8.style.backgroundColor = "red";
   reponse7.style.display = "none";
-  reponse9.style.display = "none"
+  reponse9.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
 
 reponse9.addEventListener('click', function () {
   reponse9.style.backgroundColor = "red";
   reponse7.style.display = "none";
   reponse8.style.display = "none";
+  points.innerHTML = score + "/3"
 }, { once: true })
+
 
 
 

@@ -57,7 +57,7 @@ var morph = gsap.to("#etoile", {
   repeatDelay: 0.2,
   scrollTrigger: {
     trigger: '.section5',
-    start : "top 50%",
+    start: "top 50%",
     end: "bottom 40%",
     scrub: true,
   }

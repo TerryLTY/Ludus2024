@@ -29,43 +29,59 @@ body {
     position: absolute;
 }
 
+.kirbytext {
+    font-family: "Kirby";
+    font-size: 10em;
+    text-align: center;
+}
+
+.kirbytext::before {
+    position: absolute;
+    content: url(../assets/images/bnw_kirby.png);
+    transform-origin: 50%, 50%;
+    transform: translate(-105%, -20%);
+}
+
+.kirbytext::after {
+    position: absolute;
+    content: url(../assets/images/bnw_kirby.png);
+    transform-origin: 50%, 50%;
+    transform: translate(10%, -20%);
+}
+
 .section1,
-.section4 {
+.section2,
+.section3,
+.section4,
+.section5 {
+    background-size: cover;
     height: 100vh;
-    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-blend-mode: overlay;
+    background-color: rgb(76, 77, 82);
 }
 
+.section1 {
+    background-color: rgb(0, 0, 0);
+}
 
 .section2 {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
     background-image: url(../assets/images/fond.jpg);
-    background-size: cover;
-}
-
-.section3, .section4, .section5 {
-    background-size: cover;
-    background-position: 20%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
 }
 
 .section3 {
     background-image: url(../assets/images/espace.jpeg);
+    background-position: 20%;
 }
 
 .section4 {
-    background-image: url(../assets/images/fond.jpg);
+    background-image: url(../assets/images/fond2.jpg);
 }
 
 .section5 {
-    background-color: black;
+    background-image: url(../assets/images/fond3.webp);
 }
 
 .container {
@@ -78,6 +94,10 @@ body {
     font-family: "Seurat";
     width: 100vw;
     height: 30vh;
+    margin-bottom: 40%;
+}
+
+#question2 {
     margin-bottom: 20%;
 }
 
@@ -131,15 +151,17 @@ body {
 
 #reponse7 {
     background-image: url(../assets/images/masahiro_sakurai.png);
+    background-position: bottom center;
 }
 
 #reponse8 {
     background-image: url(../assets/images/shigeru_miyamoto.png);
-    background-size: fill;
+    background-position: bottom center;
 }
 
 #reponse9 {
     background-image: url(../assets/images/barack_obama.png);
+    background-position: bottom center;
 }
 
 .text-reponse {
@@ -147,15 +169,8 @@ body {
     font-family: "Kirby";
     text-align: center;
     position: relative;
-    bottom: 10%;
-    font-size: 1.5em;
-}
-
-.kirbytext,
-.superstartext {
-    font-family: "Kirby";
-    font-size: 10em;
-    text-align: center;
+    bottom: 15%;
+    font-size: 2em;
 }
 
 .kirbyetoile {
@@ -189,7 +204,7 @@ body {
 #etoile {
     position: absolute;
     stroke-width: 0;
-    fill: pink;
+    fill: rgb(243, 139, 157);
 }
 
 #circle {

@@ -79,6 +79,7 @@ let reponse7 = document.getElementById("reponse7");
 let reponse8 = document.getElementById("reponse8");
 let reponse9 = document.getElementById("reponse9");
 let points = document.getElementById("pointage");
+let bonnesReponses = document.getElementById("bonnes-reponses")
 
 // Section 2
 reponse1.addEventListener('click', function () {
@@ -157,6 +158,14 @@ reponse9.addEventListener('click', function () {
   reponse8.style.display = "none";
   points.innerHTML = score + "/3"
 }, { once: true })
+
+bonnesReponses.addEventListener('mouseover', function () {
+  bonnesReponses.innerHTML = "Réponses: Waddle Dee, Popstar, Masahiro Sakurai";
+})
+
+bonnesReponses.addEventListener('mouseleave', function () {
+  bonnesReponses.innerHTML = "Voir les reponses";
+})
 
 
 

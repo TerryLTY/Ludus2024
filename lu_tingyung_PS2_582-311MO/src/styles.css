@@ -123,6 +123,7 @@ body {
 
 .reponse:hover {
     transform: scale(1.2);
+    cursor: pointer;
 }
 
 #reponse1 {
@@ -215,4 +216,18 @@ body {
 .pointage {
     font-family: "Seurat";
     font-size: 3em;
+}
+
+#bonnes-reponses {
+    color: white;
+    font-family: "Seurat";
+    position: absolute;
+    bottom: -30%;
+    left: 7%;
+    padding: 3%;
+}
+
+#bonnes-reponses:hover {
+    color: rgb(238, 227, 124);
+    cursor: pointer;
 }

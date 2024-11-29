@@ -86,71 +86,72 @@ let bonnesReponses = document.getElementById("bonnes-reponses")
 
 // Section 2
 reponse1.addEventListener('click', function () {
-  reponse1.style.backgroundColor = "red";
+  reponse1.style.backgroundColor = "rgb(187, 56, 56)";
   reponse2.style.display = "none";
   reponse3.style.display = "none";
-  son()
+  click()
 }, { once: true })
 
 reponse2.addEventListener('click', function () {
-  reponse2.style.backgroundColor = "red";
+  reponse2.style.backgroundColor = "rgb(187, 56, 56)";
   reponse1.style.display = "none";
   reponse3.style.display = "none";
-  son()
+  click()
 }, { once: true })
 
 reponse3.addEventListener('click', function () {
-  reponse3.style.backgroundColor = "green";
+  reponse3.style.backgroundColor = "rgb(77, 190, 67)";
   reponse1.style.display = "none";
   reponse2.style.display = "none";
   score++;
-  son()
+  click()
 }, { once: true })
 
 // Section 3
 reponse4.addEventListener('click', function () {
-  reponse4.style.backgroundColor = "green";
+  reponse4.style.backgroundColor = "rgb(77, 190, 67)";
   reponse5.style.display = "none";
   reponse6.style.display = "none";
   score++;
-  son()
+  click()
 }, { once: true })
 
 reponse5.addEventListener('click', function () {
-  reponse5.style.backgroundColor = "red";
+  reponse5.style.backgroundColor = "rgb(187, 56, 56)";
   reponse4.style.display = "none";
   reponse6.style.display = "none";
-  son()
+  click()
 }, { once: true })
 
 reponse6.addEventListener('click', function () {
-  reponse6.style.backgroundColor = "red";
+  reponse6.style.backgroundColor = "rgb(187, 56, 56)";
   reponse4.style.display = "none";
   reponse5.style.display = "none";
-  son()
+  click()
 }, { once: true })
 
 // Section 4
 reponse7.addEventListener('click', function () {
-  reponse7.style.backgroundColor = "green";
+  reponse7.style.backgroundColor = "rgb(77, 190, 67)";
   reponse8.style.display = "none";
   reponse9.style.display = "none";
   score++;
-  son()
+  click()
 }, { once: true })
 
 reponse8.addEventListener('click', function () {
-  reponse8.style.backgroundColor = "red";
+  reponse8.style.backgroundColor = "rgb(187, 56, 56)";
   reponse7.style.display = "none";
   reponse9.style.display = "none";
-  points.innerHTML = score + "/3"
+  points.innerHTML = score + "/3";
+  click()
 }, { once: true })
 
 reponse9.addEventListener('click', function () {
-  reponse9.style.backgroundColor = "red";
+  reponse9.style.backgroundColor = "rgb(187, 56, 56)";
   reponse7.style.display = "none";
   reponse8.style.display = "none";
-  son()
+  click()
 }, { once: true })
 
 bonnesReponses.addEventListener('mouseover', function () {
@@ -161,7 +162,7 @@ bonnesReponses.addEventListener('mouseleave', function () {
   bonnesReponses.innerHTML = "Voir les reponses";
 })
 
-function son() {
+function click() {
   points.innerHTML = score + "/3"
   if (score == 3) {
     sonBravo.play()
@@ -169,7 +170,3 @@ function son() {
     sonCliquer.play()
   }
 }
-
-
-
-

@@ -56,7 +56,6 @@ body {
 .section5 {
     background-size: cover;
     height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
     background-blend-mode: overlay;
@@ -113,7 +112,7 @@ body {
 }
 
 .reponse {
-    background-color: navy;
+    background-color: rgb(50, 50, 233);
     border-radius: 25px;
     background-size: contain;
     background-repeat: no-repeat;

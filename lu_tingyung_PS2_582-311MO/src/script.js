@@ -59,14 +59,16 @@ var morph = gsap.to("#circle", {
     trigger: '.section5',
     start: "top 20%",
     end: "bottom 70%",
-    scrub: true,
-    markers: true
+    scrub: true
   }
 });
 
 // Son
 let sonBravo = new Audio("./assets/audio/bravo.mp3");
 sonBravo.volume = 0.3;
+
+let sonCliquer = new Audio("./assets/audio/pop.wav");
+sonCliquer.volume = 0.8;
 
 // Boutons 
 let score = 0;
@@ -87,14 +89,14 @@ reponse1.addEventListener('click', function () {
   reponse1.style.backgroundColor = "red";
   reponse2.style.display = "none";
   reponse3.style.display = "none";
-  points.innerHTML = score + "/3"
+  son()
 }, { once: true })
 
 reponse2.addEventListener('click', function () {
   reponse2.style.backgroundColor = "red";
   reponse1.style.display = "none";
   reponse3.style.display = "none";
-  points.innerHTML = score + "/3"
+  son()
 }, { once: true })
 
 reponse3.addEventListener('click', function () {
@@ -102,10 +104,7 @@ reponse3.addEventListener('click', function () {
   reponse1.style.display = "none";
   reponse2.style.display = "none";
   score++;
-  points.innerHTML = score + "/3";
-  if (score == 3) {
-    sonBravo.play()
-  }
+  son()
 }, { once: true })
 
 // Section 3
@@ -114,24 +113,21 @@ reponse4.addEventListener('click', function () {
   reponse5.style.display = "none";
   reponse6.style.display = "none";
   score++;
-  points.innerHTML = score + "/3";
-  if (score == 3) {
-    sonBravo.play()
-  }
+  son()
 }, { once: true })
 
 reponse5.addEventListener('click', function () {
   reponse5.style.backgroundColor = "red";
   reponse4.style.display = "none";
   reponse6.style.display = "none";
-  points.innerHTML = score + "/3"
+  son()
 }, { once: true })
 
 reponse6.addEventListener('click', function () {
   reponse6.style.backgroundColor = "red";
   reponse4.style.display = "none";
   reponse5.style.display = "none";
-  points.innerHTML = score + "/3"
+  son()
 }, { once: true })
 
 // Section 4
@@ -140,10 +136,7 @@ reponse7.addEventListener('click', function () {
   reponse8.style.display = "none";
   reponse9.style.display = "none";
   score++;
-  points.innerHTML = score + "/3";
-  if (score == 3) {
-    sonBravo.play()
-  }
+  son()
 }, { once: true })
 
 reponse8.addEventListener('click', function () {
@@ -157,7 +150,7 @@ reponse9.addEventListener('click', function () {
   reponse9.style.backgroundColor = "red";
   reponse7.style.display = "none";
   reponse8.style.display = "none";
-  points.innerHTML = score + "/3"
+  son()
 }, { once: true })
 
 bonnesReponses.addEventListener('mouseover', function () {
@@ -167,6 +160,15 @@ bonnesReponses.addEventListener('mouseover', function () {
 bonnesReponses.addEventListener('mouseleave', function () {
   bonnesReponses.innerHTML = "Voir les reponses";
 })
+
+function son() {
+  points.innerHTML = score + "/3"
+  if (score == 3) {
+    sonBravo.play()
+  } else {
+    sonCliquer.play()
+  }
+}
 
 
 

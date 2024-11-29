@@ -204,13 +204,13 @@ body {
 
 #etoile {
     position: absolute;
-    stroke-width: 0;
-    fill: rgb(243, 139, 157);
+    display: none;
 }
 
 #circle {
     position: absolute;
-    display: none;
+    stroke-width: 0;
+    fill: rgb(238, 227, 124);
 }
 
 .pointage {

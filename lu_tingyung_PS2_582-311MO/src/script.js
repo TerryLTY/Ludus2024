@@ -49,17 +49,18 @@ gsap.from(split.chars, {
   delay: 0.5
 });
 
-var morph = gsap.to("#etoile", {
+var morph = gsap.to("#circle", {
   duration: 1,
-  morphSVG: "#circle",
+  morphSVG: "#etoile",
   repeat: 1,
   yoyo: true,
   repeatDelay: 0.2,
   scrollTrigger: {
     trigger: '.section5',
-    start: "top 50%",
-    end: "bottom 40%",
+    start: "top 20%",
+    end: "bottom 70%",
     scrub: true,
+    markers: true
   }
 });
 

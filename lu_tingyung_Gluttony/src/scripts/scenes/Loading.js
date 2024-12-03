@@ -51,6 +51,7 @@ class Loading extends Phaser.Scene {
         // Items
         this.load.image("item", "./assets/images/items/item_dash.png");
         this.load.image("coeur", "./assets/images/ui/pixel-heart.png");
+        this.load.image("fruit", "./assets/images/items/fruit.png");
 
         // Player
         this.load.spritesheet(

@@ -91,7 +91,15 @@ class Jeu2 extends Phaser.Scene {
 
         // Item
         this.item = this.physics.add.image(2380, 350, "item").setScale(2);
-        this.coeur = this.physics.add.image(950, 625, "coeur");
+        this.item2 = this.physics.add.image(400, 1380, "item").setScale(2);
+
+        this.coeur = this.physics.add.image(80, 920, "coeur");
+
+        this.fruitCount = 0;
+        this.fruit = this.physics.add.image(100, 1390, "fruit").setScale(0.7);
+        this.fruit2 = this.physics.add.image(2500, 280, "fruit").setScale(0.7);
+        this.fruit3 = this.physics.add.image(320, 5, "fruit").setScale(0.7);
+        this.fruit4 = this.physics.add.image(2500, 1350, "fruit").setScale(0.7);
 
         // Collision
         this.physics.add.collider(this.player, collisionLayer, () => {
@@ -102,16 +110,16 @@ class Jeu2 extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer2, () => {
             if (this.dash_left_up) {
                 this.dash_left_up.stop();
-            } 
+            }
             if (this.dash_right_up) {
                 this.dash_right_up.stop();
-            } 
+            }
             if (this.dash_up) {
                 this.dash_up.stop();
-            } 
+            }
             if (this.dash_left) {
                 this.dash_left.stop();
-            } 
+            }
             if (this.dash_right) {
                 this.dash_right.stop();
             }
@@ -120,9 +128,14 @@ class Jeu2 extends Phaser.Scene {
 
         this.physics.add.collider(this.player, goalLayer, () => {
             this.doorSound.play();
-            this.scene.start("Victoire");
             this.heartbeatSound.stop();
-            this.jeuMusic1.stop()
+            this.jeuMusic1.stop();
+
+            if (this.fruitCount == 4) {
+                this.scene.start("Victoire");
+            } else {
+                this.scene.start("PartieTerminee")
+            }
         });
 
         // Touches
@@ -182,6 +195,20 @@ class Jeu2 extends Phaser.Scene {
             .setScale(0.8)
             .setInteractive()
             .setPosition(375, 175);
+
+        this.fruitUi = this.add.image(0, 0, "fruit")
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(0.9)
+            .setInteractive()
+            .setPosition(935, 160);
+
+            this.fruitText = this.add.text(0, 0, this.fruitCount + "/4")
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(1.3)
+            .setInteractive()
+            .setPosition(890, 175);
     }
 
     update() {
@@ -245,7 +272,7 @@ class Jeu2 extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
                 this.dash_up = this.tweens.add({
                     targets: this.player,
-                    y: this.player.y - 80,
+                    y: this.player.y - 110,
                     duration: 100
                 })
                 this.dash()
@@ -253,20 +280,20 @@ class Jeu2 extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.dash_left = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x - 80,
+                    x: this.player.x - 110,
                     duration: 100
                 })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
                 this.dash_right = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x + 80,
+                    x: this.player.x + 110,
                     duration: 100
                 })
                 this.dash()
             }
         })
-        
+
     }
 
     handleItems() {
@@ -311,33 +338,52 @@ class Jeu2 extends Phaser.Scene {
             this.player,
             this.item,
             () => {
-                if (this.item.alpha == 1) {
-                    this.dashItemSound.play()
-                    this.player.setAlpha(1);
-                    this.player.clearTint();
-                    this.tweens.add({
-                        targets: this.item,
-                        alpha: {
-                            from: 0,
-                            to: 0.3
-                        },
-                        duration: 500,
-                        repeat: 2,
-                        yoyo: true,
-                        onComplete: () => {
-                            this.item.setAlpha(1);
-                        }
-                    })
-                    if (this.flashTween) {
-                        this.flashTween.stop()
-                    }
-                } else {
-
-                }
-
+                this.dashReset(this.item)
             }
         );
 
+        this.physics.add.overlap(
+            // Restaure dash
+            this.player,
+            this.item2,
+            () => {
+                this.dashReset(this.item2)
+            }
+        );
+
+        this.physics.add.overlap(
+            this.player,
+            this.fruit,
+            () => {
+                this.fruitPickup(this.fruit)
+            }
+        );
+
+        this.physics.add.overlap(
+            this.player,
+            this.fruit2,
+            () => {
+                this.fruitPickup(this.fruit2)
+            }
+        );
+
+        this.physics.add.overlap(
+            this.player,
+            this.fruit3,
+            () => {
+                this.fruitPickup(this.fruit3)
+            }
+        );
+
+        this.physics.add.overlap(
+            this.player,
+            this.fruit4,
+            () => {
+                this.fruitPickup(this.fruit4)
+            }
+        );
+
+        // Animation de l'item
         this.spinTween = this.tweens.add({
             targets: this.item,
             rotation: 30,
@@ -430,5 +476,36 @@ class Jeu2 extends Phaser.Scene {
                 duration: 100
             });
         });
+    }
+
+    dashReset(theItem) {
+        if (theItem.alpha == 1) {
+            this.dashItemSound.play()
+            this.player.setAlpha(1);
+            this.player.clearTint();
+            this.tweens.add({
+                targets: theItem,
+                alpha: {
+                    from: 0,
+                    to: 0.3
+                },
+                duration: 500,
+                repeat: 2,
+                yoyo: true,
+                onComplete: () => {
+                    theItem.setAlpha(1);
+                }
+            })
+            if (this.flashTween) {
+                this.flashTween.stop()
+            }
+        }
+    }
+
+    fruitPickup(theFruit) {
+        theFruit.destroy();
+        this.fruitCount++;
+        this.dashItemSound.play();
+        this.fruitText.setText(this.fruitCount + "/4")
     }
 }

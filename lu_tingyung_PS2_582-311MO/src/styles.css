@@ -49,11 +49,7 @@ body {
     transform: translate(10%, -20%);
 }
 
-.section1,
-.section2,
-.section3,
-.section4,
-.section5 {
+section {
     background-size: cover;
     height: 100vh;
     justify-content: center;

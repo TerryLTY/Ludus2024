@@ -8,6 +8,7 @@ class Jeu extends Phaser.Scene {
     preload() {}
 
     create() {
+        this.physics.world.TILE_BIAS = 17;
         // Créer sauvegarde
         const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
 
@@ -241,7 +242,7 @@ class Jeu extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.keys.up.isDown && this.player.alpha == 1) {
                 this.dash_up = this.tweens.add({
                     targets: this.player,
-                    y: this.player.y - 80,
+                    y: this.player.y - 110,
                     duration: 100
                 })
                 this.dash()
@@ -249,14 +250,14 @@ class Jeu extends Phaser.Scene {
             } else if (pointer.leftButtonDown() && this.player.flipX && this.player.alpha == 1) {
                 this.dash_left = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x - 80,
+                    x: this.player.x - 110,
                     duration: 100
                 })
                 this.dash()
             } else if (pointer.leftButtonDown() && this.player.alpha == 1) {
                 this.dash_right = this.tweens.add({
                     targets: this.player,
-                    x: this.player.x + 80,
+                    x: this.player.x + 110,
                     duration: 100
                 })
                 this.dash()

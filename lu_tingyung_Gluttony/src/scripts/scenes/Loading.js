@@ -16,6 +16,7 @@ class Loading extends Phaser.Scene {
         this.load.image("RIP", "./assets/images/ui/vous_etes_mort.png");
         this.load.image("recommencer", "./assets/images/ui/recommencer.png");
         this.load.image("felicitations", "./assets/images/ui/felicitations.png");
+        this.load.image("fin", "./assets/images/ui/fin.png");
 
         // Boutons
         this.load.image("commencer", "./assets/images/ui/commencer.png");

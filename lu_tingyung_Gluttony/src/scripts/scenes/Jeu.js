@@ -9,6 +9,7 @@ class Jeu extends Phaser.Scene {
 
     create() {
         this.physics.world.TILE_BIAS = 17;
+        
         // Créer sauvegarde
         const sauvegarde = JSON.parse(localStorage.getItem('sauvegardeJeu'));
 
@@ -330,13 +331,6 @@ class Jeu extends Phaser.Scene {
                 }
             }
         );
-
-        this.spinTween = this.tweens.add({
-            targets: this.item,
-            rotation: 30,
-            duration: 5000,
-            repeat: -1
-        })
     }
 
     dash() {

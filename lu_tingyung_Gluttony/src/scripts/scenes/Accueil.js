@@ -48,7 +48,7 @@ class Accueil extends Phaser.Scene {
             this.accueilMusic.stop();
             const fx = this.cameras.main.postFX.addWipe();
             this.scene.transition({
-                target: "Jeu2",
+                target: "Jeu",
                 duration: 1000,
                 moveBelow: true,
                 onUpdate: (progress) => {

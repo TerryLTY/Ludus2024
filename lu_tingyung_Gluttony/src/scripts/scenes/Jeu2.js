@@ -132,9 +132,9 @@ class Jeu2 extends Phaser.Scene {
             this.jeuMusic1.stop();
 
             if (this.fruitCount == 4) {
-                this.scene.start("Victoire");
+                this.scene.start("FinBonne");
             } else {
-                this.scene.start("PartieTerminee")
+                this.scene.start("FinMauvaise")
             }
         });
 
@@ -382,14 +382,6 @@ class Jeu2 extends Phaser.Scene {
                 this.fruitPickup(this.fruit4)
             }
         );
-
-        // Animation de l'item
-        this.spinTween = this.tweens.add({
-            targets: this.item,
-            rotation: 30,
-            duration: 5000,
-            repeat: -1
-        })
     }
 
     dash() {

@@ -87,7 +87,7 @@ class Loading extends Phaser.Scene {
             duration: 500,
             yoyo: true,
             onComplete: () => {
-                this.scene.start("Accueil")
+                this.scene.start("Pretext")
             }
         })
 
